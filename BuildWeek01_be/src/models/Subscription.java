@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 
 import enumerates.TypeSubscription;
 
-import models.Ticket;
 
 @Entity
-public class Subscription extends Ticket {
+public class Subscription extends Pass {
     private TypeSubscription typeSubscription;
 
     public Subscription() {
@@ -40,13 +39,22 @@ public class Subscription extends Ticket {
     public String toString() {
         return super.toString() + ", typeSubscription=" + typeSubscription;
     }
-
+  
+   
+    
+  
     public static Subscription randomSubscription() {
-        Ticket ticket = Ticket.randomTicket();
+    	Random random = new Random();
+        String[] names = { "Ticket A", "Ticket B", "Ticket C" };
+        String[] descriptions = { "Description A", "Description B", "Description C" };
+        double[] prices = { 10.0, 20.0, 30.0 };
+        String name = names[random.nextInt(names.length)];
+        String description = descriptions[random.nextInt(descriptions.length)];
+        double price = prices[random.nextInt(prices.length)];
         Subscription subscription = new Subscription();
-        subscription.setName(ticket.getName());
-        subscription.setDescription(ticket.getDescription());
-        subscription.setPrice(ticket.getPrice());
+        subscription.setName(name);
+        subscription.setDescription(description);
+        subscription.setPrice(price);
         subscription
                 .setTypeSubscription(TypeSubscription.values(
                 )[new Random().nextInt(TypeSubscription.values().length)]);

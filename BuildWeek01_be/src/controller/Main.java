@@ -1,12 +1,12 @@
 package controller;
-import models.Ticket;
 import models.Trace;
 import models.Card;
 import models.Subscription;
+import models.Ticket;
 
 import java.util.List;
 
-import DAO.CardDAO;
+import dao.CardDAO;
 
 public class Main {
 

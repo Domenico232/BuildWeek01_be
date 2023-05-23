@@ -24,19 +24,19 @@ public class Reseller {
 	private String name;
 	
 	@OneToMany
-	private List <Ticket> ticketSell;
+	private List <Pass> ticketSell;
 
 	public Reseller() {
 		super();
 	}
 
-	public Reseller(String name, List<Ticket> ticketSell) {
+	public Reseller(String name, List<Pass> ticketSell) {
 		super();
 		this.name = name;
 		this.ticketSell = ticketSell;
 	}
 
-	public Reseller(long id, String name, List<Ticket> ticketSell) {
+	public Reseller(long id, String name, List<Pass> ticketSell) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,11 +59,11 @@ public class Reseller {
 		this.name = name;
 	}
 
-	public List<Ticket> getTicketSell() {
+	public List<Pass> getTicketSell() {
 		return ticketSell;
 	}
 
-	public void setTicketSell(List<Ticket> ticketSell) {
+	public void setTicketSell(List<Pass> ticketSell) {
 		this.ticketSell = ticketSell;
 	}
 

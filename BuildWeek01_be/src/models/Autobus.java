@@ -16,7 +16,7 @@ public class Autobus extends Veicle {
 		super();
 	}
 
-	public Autobus( ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Ticket> listTicket, Integer capienza) {
+	public Autobus( ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Pass> listTicket, Integer capienza) {
 		super(serviceVeicle, listTrace, listTicket);
 		this.capienza = 50;
 	}

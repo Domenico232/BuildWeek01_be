@@ -1,10 +1,11 @@
-package DAO;
+package dao;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import interfaces.IVeicleDAO;
 import models.Veicle;
 import utils.JpaUtil;
 public class VeicleDAO implements IVeicleDAO{

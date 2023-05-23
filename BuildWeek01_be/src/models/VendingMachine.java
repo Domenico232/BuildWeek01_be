@@ -13,12 +13,12 @@ public class VendingMachine extends Reseller {
 		// TODO Auto-generated constructor stub
 	}
 
-	public VendingMachine(Integer id, String name, List<Ticket> ticketSell, TypeReseller typeReseller) {
+	public VendingMachine(Integer id, String name, List<Pass> ticketSell, TypeReseller typeReseller) {
 		super(id, name, ticketSell);
 		this.typeReseller = typeReseller;
 	}
 
-	public VendingMachine(String name, List<Ticket> ticketSell, TypeReseller typeReseller) {
+	public VendingMachine(String name, List<Pass> ticketSell, TypeReseller typeReseller) {
 		super(name, ticketSell);
 		this.typeReseller = typeReseller;
 	}

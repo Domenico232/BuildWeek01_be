@@ -1,26 +1,26 @@
-package DAO;
-
+package dao;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import models.Reseller;
-import models.TraceTravel;
-import models.VendingMachine;
+import interfaces.IUserDAO;
+import models.User;
 import utils.JpaUtil;
 
-public class VendingMachineDAO implements IVendingMachineDAO{
+public class UserDAO implements IUserDAO{
 
+	
+	
 	@Override
-	public void save(VendingMachine vm) {
+    public void save(User u) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(vm);
+            em.persist(u);
             em.getTransaction().commit();
-            System.out.println("TraceTravel salvato nel DB!!");
+            System.out.println("User salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -34,10 +34,10 @@ public class VendingMachineDAO implements IVendingMachineDAO{
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            TraceTravel tt  = em.find(TraceTravel.class, id );
-            em.remove(tt);
+            User u  = em.find(User.class, id );
+            em.remove(u);
             em.getTransaction().commit();
-            System.out.println("TraceTravel cancellato dal DB!!");
+            System.out.println("Elemento cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -47,13 +47,13 @@ public class VendingMachineDAO implements IVendingMachineDAO{
     }
 	
 	@Override
-	public VendingMachine getById(Long id){
+	public User getById(Long id){
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            VendingMachine tt = em.find(VendingMachine.class, id);
+            User u =  em.find(User.class, id);
             em.getTransaction().commit();
-            return tt;
+            return u;
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -64,13 +64,13 @@ public class VendingMachineDAO implements IVendingMachineDAO{
     }
 
 	@Override
-    public void update(VendingMachine vm) {
+    public void update(User u) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(vm);
+            em.merge(u);
             em.getTransaction().commit();
-            System.out.println("TraceTravel salvato nel DB!!");
+            System.out.println("User salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -81,19 +81,16 @@ public class VendingMachineDAO implements IVendingMachineDAO{
 
 	
     @Override
-    public List<VendingMachine> getAll() {
+    public List<User> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
-            Query q = em.createNamedQuery("tuttiTraceTravel");
+            Query q = em.createNamedQuery("tuttiUser");
             return q.getResultList();
         } finally {
             em.close();
         }
     }
+	
 
-
-	
-	
-	
 	
 }
