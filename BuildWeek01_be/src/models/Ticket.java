@@ -10,7 +10,7 @@ public class Ticket extends Pass{
 
     public Ticket() {
 
-    }
+	}
 
     public Ticket(String name, String description, double price) {
 		super(name, description, price);
@@ -19,7 +19,7 @@ public class Ticket extends Pass{
 	public Ticket(String name, String description, double price, Boolean endorsed) {
 		super(name, description, price);
 		this.endorsed = endorsed;
-		
+
 	}
 
 	public Ticket(long id, String name, String description, double price, Boolean endorsed) {
@@ -41,20 +41,20 @@ public class Ticket extends Pass{
 		return super.toString() + "Ticket [endorsed=" + endorsed + "]";
     }
 
-	 public static Ticket randomTicket() {
-	    	Random random = new Random();
-	        String[] names = { "Ticket A", "Ticket B", "Ticket C" };
-	        String[] descriptions = { "Description A", "Description B", "Description C" };
-	        double[] prices = { 10.0, 20.0, 30.0 };
-	        String name = names[random.nextInt(names.length)];
-	        String description = descriptions[random.nextInt(descriptions.length)];
-	        double price = prices[random.nextInt(prices.length)];
-	        Ticket Ticket = new Ticket();
-	        Ticket.setName(name);
-	        Ticket.setDescription(description);
-	        Ticket.setPrice(price);
-	        Ticket.setEndorsed(true);
-	        return Ticket;
-	    }
-	
+	public static Ticket randomTicket() {
+		Random random = new Random();
+		String[] names = { "Ticket A", "Ticket B", "Ticket C" };
+		String[] descriptions = { "Description A", "Description B", "Description C" };
+		double[] prices = { 10.0, 20.0, 30.0 };
+		String name = names[random.nextInt(names.length)];
+		String description = descriptions[random.nextInt(descriptions.length)];
+		double price = prices[random.nextInt(prices.length)];
+		Ticket ticket = new Ticket();
+		ticket.setName(name);
+		ticket.setDescription(description);
+		ticket.setPrice(price);
+		ticket.setEndorsed(false);
+		return ticket;
+	}
+
 }

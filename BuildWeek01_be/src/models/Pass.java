@@ -1,26 +1,31 @@
 package models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pass{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public abstract class Pass {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = -1;
     private String name;
     private String description;
     private double price;
-    
+
     @OneToOne
     private Trace trace;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private Reseller reseller;
 
     public Pass() {
 
@@ -37,6 +42,15 @@ public abstract class Pass{
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Pass(int id, String name, String description, double price,
+            Reseller reseller) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.reseller = reseller;
     }
 
     public long getId() {
@@ -71,23 +85,17 @@ public abstract class Pass{
         this.price = price;
     }
 
+    public Reseller getReseller() {
+        return this.reseller;
+    }
+
+    public void setReseller(Reseller reseller) {
+        this.reseller = reseller;
+    }
+
     @Override
     public String toString() {
         return "Ticket [id=" + id + ", name=" + name + ", description=" +
                 description + ", price=" + price + "]";
     }
-
-    /*public static Pass randomTicket() {
-        Random random = new Random();
-        String[] names = { "Ticket A", "Ticket B", "Ticket C" };
-        String[] descriptions = { "Description A", "Description B", "Description C" };
-        double[] prices = { 10.0, 20.0, 30.0 };
-
-        String name = names[random.nextInt(names.length)];
-        String description = descriptions[random.nextInt(descriptions.length)];
-        double price = prices[random.nextInt(prices.length)];
-
-        return new Pass(name, description, price);*/
-    }
-
-
+}
