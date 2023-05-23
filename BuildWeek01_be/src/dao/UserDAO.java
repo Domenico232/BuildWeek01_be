@@ -29,6 +29,23 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
+    public void saveAll(List<User> users) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(users);
+            em.getTransaction().commit();
+            System.out.println("User salvato nel DB!!");
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println("Errore su salvataggio!!");
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {

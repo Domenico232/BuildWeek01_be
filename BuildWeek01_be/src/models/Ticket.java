@@ -3,37 +3,27 @@ package models;
 import java.util.Random;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Ticket extends Pass{
-	private Boolean endorsed;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String description;
-    private double price;
-    
-    @OneToOne
-    private Trace trace;
+	private Boolean endorsed = false;
 
     public Ticket() {
 
     }
 
     public Ticket(String name, String description, double price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
+		super(name, description, price);
     }
 
 	public Ticket(String name, String description, double price, Boolean endorsed) {
 		super(name, description, price);
+		this.endorsed = endorsed;
+		
+	}
+
+	public Ticket(long id, String name, String description, double price, Boolean endorsed) {
+		super(id, name, description, price);
 		this.endorsed = endorsed;
 		
 	}
@@ -48,8 +38,7 @@ public class Ticket extends Pass{
 
     @Override
     public String toString() {
-        return "Ticket [id=" + id + ", name=" + name + ", description=" +
-                description + ", price=" + price + "]";
+		return super.toString() + "Ticket [endorsed=" + endorsed + "]";
     }
 
 	 public static Ticket randomTicket() {
