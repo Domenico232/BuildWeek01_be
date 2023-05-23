@@ -1,110 +1,112 @@
-package DAO;
+package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import models.Card;
 import utils.JpaUtil;
+import models.Pass;
 
-public class CardDAO {
-
-    public void save(Card card) {
+public class TicketDAO extends Pass{
+    public void save(Pass ticket) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(card);
+            em.persist(ticket);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Errore durante il salvataggio della carta: %s",
+                            "Error saving loan: %s",
+                            e.getMessage()));
+            em.getTransaction().rollback();
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    public void saveAll(List<Pass> ticket) {
+        for (Pass ticketl : ticket) {
+            save(ticketl);
+        }
+    }
+
+    public Pass getById(Long id) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        Pass loan = null;
+        try {
+            em.getTransaction().begin();
+            loan = em.find(Pass.class, id);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error getting ticket by id: %s", id));
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return loan;
+    }
+
+    public List<Pass> getAll() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Pass> loans = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<Pass> query = em.createQuery(
+                    "SELECT l FROM Ticket l", Pass.class);
+            loans = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error getting all loans: %s",
                             e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
+        return loans;
     }
 
-    public void saveAll(List<Card> cards) {
-        for (Card card : cards) {
-            save(card);
-        }
-    }
-
-    public Card getById(long id) {
+    public void update(Pass ticket) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        Card card = null;
         try {
             em.getTransaction().begin();
-            card = em.find(Card.class, id);
+            em.merge(ticket);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Errore durante la ricerca della carta con id %d: %s", id, e.getMessage()));
-            System.out.println(e.getMessage());
-        } finally {
-            em.close();
-        }
-        return card;
-    }
-
-    public void update(Card card) {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(card);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Errore durante l'aggiornamento della carta: %s",
+                            "Error updating loan: %s",
                             e.getMessage()));
+            em.getTransaction().rollback();
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
     }
 
-    public void remove(Card card) {
+    public void removeById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(card);
+            Pass ticket = em.find(Pass.class, id);
+            em.remove(ticket);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Errore durante la rimozione della carta: %s",
-                            e.getMessage()));
-            System.out.println(e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Card> getAll() {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        List<Card> cards = null;
-        try {
-            em.getTransaction().begin();
-            TypedQuery<Card> query = em.createQuery("SELECT c FROM Card c", Card.class);
-            cards = query.getResultList();
-            em.getTransaction().commit();
-        } catch (Exception e) {
+                            "Error removing loan by id: %s", id));
             em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Errore durante la ricerca di tutte le carte: %s",
-                            e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
-        return cards;
     }
-}

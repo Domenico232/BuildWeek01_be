@@ -1,6 +1,5 @@
 package models;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,8 +16,8 @@ public class Tram extends Veicle {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tram(ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Ticket> listTicket, Integer capienza) {
-		super(serviceVeicle, listTrace, listTicket);
+	public Tram(ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Pass> listPass, Integer capienza) {
+		super(serviceVeicle, listTrace, listPass);
 		this.capienza = 70; 
 	}
 

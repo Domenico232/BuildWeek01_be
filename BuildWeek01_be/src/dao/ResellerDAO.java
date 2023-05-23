@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import interfaces.IResellerDAO;
 import models.Reseller;
 import utils.JpaUtil;
 

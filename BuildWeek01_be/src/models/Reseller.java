@@ -2,12 +2,10 @@ package models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +22,7 @@ public class Reseller {
 	
 	private String name;
 	
-	@OneToMany (cascade = CascadeType.ALL)
+	@OneToMany
 	private List <Ticket> ticketSell;
 
 	public Reseller() {
@@ -58,12 +56,12 @@ public class Reseller {
 		this.name = name;
 	}
 
-	public List<Ticket> getTicketSell() {
+	public List<Pass> getTicketSell() {
 		return ticketSell;
 	}
 
-	public List<Ticket> setTicketSell(List<Ticket> ticketSell) {
-		return this.ticketSell = ticketSell;
+	public void setTicketSell(List<Pass> ticketSell) {
+		this.ticketSell = ticketSell;
 	}
 
 	@Override

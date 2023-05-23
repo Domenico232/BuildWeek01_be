@@ -1,20 +1,21 @@
 package controller;
-import models.Ticket;
 import models.Trace;
+import models.User;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
+import models.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import DAO.CardDAO;
-import DAO.TicketDAO;
+import dao.CardDAO;
+import dao.UserDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
-
 		Reseller r1 = new Reseller("franco");
 		Ticket t1 = new Ticket("t1", "roma", 10.5, r1, null);
 		Ticket t2 = randomTicketTest();
@@ -45,6 +46,18 @@ public class Main {
 		System.out.println(trace);
 	}
 
+	public static void cardDAOTEst() {
+		CardDAO cardDAO = new CardDAO();
+		cardDAO.saveAll(List.of(
+				Card.randomCard(), Card.randomCard(), Card.randomCard()
+		));
+	}
+
+	public static void randomCardTest() {
+		Card card = Card.randomCard();
+		System.out.println(card);
+	}
+	
 //	public static void cardDAOTEst() {
 //		CardDAO cardDAO = new CardDAO();
 //		cardDAO.saveAll(List.of(

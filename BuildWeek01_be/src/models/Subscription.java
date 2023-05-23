@@ -7,10 +7,8 @@ import javax.persistence.ManyToOne;
 
 import enumerates.TypeSubscription;
 
-import models.Ticket;
-
 @Entity
-public class Subscription extends Ticket {
+public class Subscription extends Pass {
     private TypeSubscription typeSubscription;
     
     @ManyToOne
@@ -26,7 +24,11 @@ public class Subscription extends Ticket {
         this.typeSubscription = typeSubscription;
         this.card = card;
     }
-    
+
+    public long getId() {
+        return super.getId();
+    }
+
     public TypeSubscription getTypeSubscription() {
         return typeSubscription;
     }
@@ -48,15 +50,20 @@ public class Subscription extends Ticket {
 		return super.toString() + "Subscription [typeSubscription=" + typeSubscription + ", card=" + card + "]";
 	}
 
-	public static Subscription randomSubscription() {
-        Ticket ticket = Ticket.randomTicket();
+    public static Subscription randomSubscription() {
+        Random random = new Random();
+        String[] names = { "Subscription A", "Subscription B", "Subscription C" };
+        String[] descriptions = { "Fiera A", "Metro B", "Stazione C" };
+        double[] prices = { 10.0, 20.0, 30.0 };
+        String name = names[random.nextInt(names.length)];
+        String description = descriptions[random.nextInt(descriptions.length)];
+        double price = prices[random.nextInt(prices.length)];
         Subscription subscription = new Subscription();
-        subscription.setName(ticket.getName());
-        subscription.setDescription(ticket.getDescription());
-        subscription.setPrice(ticket.getPrice());
+        subscription.setName(name);
+        subscription.setDescription(description);
+        subscription.setPrice(price);
         subscription
-                .setTypeSubscription(TypeSubscription.values(
-                )[new Random().nextInt(TypeSubscription.values().length)]);
+                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         return subscription;
     }
 

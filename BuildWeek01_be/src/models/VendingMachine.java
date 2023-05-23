@@ -15,11 +15,13 @@ public class VendingMachine extends Reseller {
 
 	public VendingMachine(Integer id, String name, List<Ticket> ticketSell, TypeReseller typeReseller) {
 		super(id, name);
+	public VendingMachine(Integer id, String name, List<Pass> ticketSell, TypeReseller typeReseller) {
+		super(id, name, ticketSell);
 		this.typeReseller = typeReseller;
 	}
 
-	public VendingMachine(String name, List<Ticket> ticketSell, TypeReseller typeReseller) {
-		super(name);
+	public VendingMachine(String name, List<Pass> ticketSell, TypeReseller typeReseller) {
+		super(name, ticketSell);
 		this.typeReseller = typeReseller;
 	}
 

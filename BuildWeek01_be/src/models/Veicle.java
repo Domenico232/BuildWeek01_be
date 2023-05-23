@@ -2,13 +2,11 @@ package models;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import enumerates.ServiceVeicle;
@@ -33,13 +31,13 @@ public class Veicle {
 	private Set<Trace> listTrace;
 	
 	@OneToMany
-	private Set<Ticket> listTicket;
+	private Set<Pass> listTicket;
 
 	public Veicle() {
 		super();
 	}
 
-	public Veicle(ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Ticket> listTicket) {
+	public Veicle(ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Pass> listTicket) {
 		super();
 		this.serviceVeicle = serviceVeicle;
 		this.listTrace = listTrace;
@@ -70,11 +68,11 @@ public class Veicle {
 		this.listTrace = listTrace;
 	}
 
-	public Set<Ticket> getListTicket() {
+	public Set<Pass> getListTicket() {
 		return listTicket;
 	}
 
-	public void setListTicket(Set<Ticket> listTicket) {
+	public void setListTicket(Set<Pass> listTicket) {
 		this.listTicket = listTicket;
 	}
 

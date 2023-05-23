@@ -1,25 +1,26 @@
-package DAO;
+package dao;
+
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import models.User;
+import interfaces.ITraceTravelDAO;
+import models.Reseller;
+import models.TraceTravel;
 import utils.JpaUtil;
 
-public class UserDAO implements IUserDAO{
+public class TraceTravelDAO implements ITraceTravelDAO{
 
-	
-	
 	@Override
-    public void save(User u) {
+	public void save(TraceTravel tt  ) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(u);
+            em.persist(tt);
             em.getTransaction().commit();
-            System.out.println("User salvato nel DB!!");
+            System.out.println("TraceTravel salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -33,10 +34,10 @@ public class UserDAO implements IUserDAO{
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u  = em.find(User.class, id );
-            em.remove(u);
+            TraceTravel tt  = em.find(TraceTravel.class, id );
+            em.remove(tt);
             em.getTransaction().commit();
-            System.out.println("Elemento cancellato dal DB!!");
+            System.out.println("TraceTravel cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -46,13 +47,13 @@ public class UserDAO implements IUserDAO{
     }
 	
 	@Override
-	public User getById(Long id){
+	public TraceTravel getById(Long id){
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u =  em.find(User.class, id);
+            TraceTravel tt =  em.find(TraceTravel.class, id);
             em.getTransaction().commit();
-            return u;
+            return tt;
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -63,13 +64,13 @@ public class UserDAO implements IUserDAO{
     }
 
 	@Override
-    public void update(User u) {
+    public void update(TraceTravel tt) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(u);
+            em.merge(tt);
             em.getTransaction().commit();
-            System.out.println("User salvato nel DB!!");
+            System.out.println("TraceTravel salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -80,16 +81,19 @@ public class UserDAO implements IUserDAO{
 
 	
     @Override
-    public List<User> getAll() {
+    public List<TraceTravel> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
-            Query q = em.createNamedQuery("tuttiUser");
+            Query q = em.createNamedQuery("tuttiTraceTravel");
             return q.getResultList();
         } finally {
             em.close();
         }
     }
-	
 
+
+	
+	
+	
 	
 }

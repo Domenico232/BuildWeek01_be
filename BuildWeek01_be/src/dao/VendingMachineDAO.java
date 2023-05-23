@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 
 import java.util.List;
@@ -6,18 +6,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import interfaces.IVendingMachineDAO;
 import models.Reseller;
 import models.TraceTravel;
+import models.VendingMachine;
 import utils.JpaUtil;
 
-public class TraceTravelDAO implements ITraceTravelDAO{
+public class VendingMachineDAO implements IVendingMachineDAO{
 
 	@Override
-	public void save(TraceTravel tt  ) {
+	public void save(VendingMachine vm) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(tt);
+            em.persist(vm);
             em.getTransaction().commit();
             System.out.println("TraceTravel salvato nel DB!!");
         } catch (Exception e) {
@@ -46,11 +48,11 @@ public class TraceTravelDAO implements ITraceTravelDAO{
     }
 	
 	@Override
-	public TraceTravel getById(Long id){
+	public VendingMachine getById(Long id){
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            TraceTravel tt =  em.find(TraceTravel.class, id);
+            VendingMachine tt = em.find(VendingMachine.class, id);
             em.getTransaction().commit();
             return tt;
         } catch (Exception e) {
@@ -63,11 +65,11 @@ public class TraceTravelDAO implements ITraceTravelDAO{
     }
 
 	@Override
-    public void update(TraceTravel tt) {
+    public void update(VendingMachine vm) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(tt);
+            em.merge(vm);
             em.getTransaction().commit();
             System.out.println("TraceTravel salvato nel DB!!");
         } catch (Exception e) {
@@ -80,7 +82,7 @@ public class TraceTravelDAO implements ITraceTravelDAO{
 
 	
     @Override
-    public List<TraceTravel> getAll() {
+    public List<VendingMachine> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             Query q = em.createNamedQuery("tuttiTraceTravel");
