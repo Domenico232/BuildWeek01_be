@@ -1,7 +1,9 @@
 package controller;
+
 import models.Trace;
 import models.User;
 import models.Card;
+import models.Pass;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
@@ -11,19 +13,15 @@ import java.util.List;
 import java.util.Random;
 
 import dao.CardDAO;
+import dao.ResellerDAO;
+import dao.TraceDAO;
 import dao.UserDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Reseller r1 = new Reseller("franco");
-		
-		
-//		List <Ticket> lt1 = new ArrayList();
-//		lt1.add(t1);
-//		lt1.add(t2);
-//		lt1.add(t3);
-		
+		insertUsers(10);
+
 	}
 
 	public static void randomSubscriptionTest() {
@@ -45,19 +43,47 @@ public class Main {
 	public static void cardDAOTEst() {
 		CardDAO cardDAO = new CardDAO();
 		cardDAO.saveAll(List.of(
-				Card.randomCard(), Card.randomCard(), Card.randomCard()
-		));
+				Card.randomCard(), Card.randomCard(), Card.randomCard()));
 	}
 
 	public static void randomCardTest() {
 		Card card = Card.randomCard();
 		System.out.println(card);
 	}
-	
-//	public static void cardDAOTEst() {
-//		CardDAO cardDAO = new CardDAO();
-//		cardDAO.saveAll(List.of(
-//				Card.randomCard(), Card.randomCard(), Card.randomCard()
-//		));
-//	}
+
+	public static void insertUsers(int quantity) {
+		UserDAO userDAO = new UserDAO();
+		for (int i = 0; i < quantity; i++) {
+			User user = User.randomUser();
+			userDAO.save(user);
+		}
+	}
+
+	public static void insertCards(int quantity) {
+		CardDAO cardDAO = new CardDAO();
+		for (int i = 0; i < quantity; i++) {
+			Card card = Card.randomCard();
+			cardDAO.save(card);
+		}
+	}
+
+	public static void insertTraces(int quantity) {
+		TraceDAO traceDAO = new TraceDAO();
+		for (int i = 0; i < quantity; i++) {
+			Trace trace = Trace.randomTrace();
+			traceDAO.save(trace);
+		}
+	}
+
+	public static void insertPass(int quantity) {
+		PassDAO passDAO = new PassDAO();
+		ResellerDAO resellerDAO = new ResellerDAO();
+		List<Reseller> resellers = new ArrayList<>();
+		resellers = resellerDAO.getAll();
+		for (int i = 0; i < quantity; i++) {
+			Pass pass = Subscription.randomSubscription();
+			pass.setReseller(resellers.get(new Random().nextInt(resellers.size())));
+			passDAO.save(pass);
+		}
+	}
 }
