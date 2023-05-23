@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="resellers")
 @NamedQuery(name = "tuttiReseller", query = "SELECT r FROM Reseller r")
+
 public class Reseller {
 		
 	@Id
@@ -23,24 +24,22 @@ public class Reseller {
 	
 	private String name;
 	
-	@OneToMany
+	@OneToMany (cascade = CascadeType.ALL)
 	private List <Ticket> ticketSell;
 
 	public Reseller() {
 		super();
 	}
 
-	public Reseller(String name, List<Ticket> ticketSell) {
+	public Reseller(String name) {
 		super();
 		this.name = name;
-		this.ticketSell = ticketSell;
 	}
 
-	public Reseller(long id, String name, List<Ticket> ticketSell) {
+	public Reseller(long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.ticketSell = ticketSell;
 	}
 
 	public long getId() {
@@ -63,8 +62,8 @@ public class Reseller {
 		return ticketSell;
 	}
 
-	public void setTicketSell(List<Ticket> ticketSell) {
-		this.ticketSell = ticketSell;
+	public List<Ticket> setTicketSell(List<Ticket> ticketSell) {
+		return this.ticketSell = ticketSell;
 	}
 
 	@Override

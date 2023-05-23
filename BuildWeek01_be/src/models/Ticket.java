@@ -1,14 +1,18 @@
 package models;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity
+//@NamedQuery(name = "biglettiEmessiPerData", query = "SELECT t FROM Ticket t WHERE reseller.id = :prmt AND BETWEEN :data1 AND :data2 ")
 public class Ticket {
 	
 	@Id
@@ -17,66 +21,89 @@ public class Ticket {
     private String name;
     private String description;
     private double price;
+    private LocalDate dataEmissione = LocalDate.now();
+    
+    @ManyToOne 
+    private Reseller reseller;
     
     @OneToOne
     private Trace trace;
 
     public Ticket() {
+		super();
+	}
+    
+	public Ticket(String name, String description, double price) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+	}
 
-    }
+	public Ticket(String name, String description, double price, Reseller reseller, Trace trace) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.reseller = reseller;
+		this.trace = trace;
+	}
 
-    public Ticket(String name, String description, double price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public Ticket(int id, String name, String description, double price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public Reseller getReseller() {
+		return reseller;
+	}
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public void setReseller(Reseller reseller) {
+		this.reseller = reseller;
+	}
 
-    @Override
-    public String toString() {
-        return "Ticket [id=" + id + ", name=" + name + ", description=" +
-                description + ", price=" + price + "]";
-    }
+	public Trace getTrace() {
+		return trace;
+	}
 
-    public static Ticket randomTicket() {
+	public void setTrace(Trace trace) {
+		this.trace = trace;
+	}
+
+	@Override
+	public String toString() {
+		return "Ticket [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
+				+ ", reseller=" + reseller + ", trace=" + trace + "]";
+	}
+
+	public static Ticket randomTicket() {
         Random random = new Random();
         String[] names = { "Ticket A", "Ticket B", "Ticket C" };
         String[] descriptions = { "Description A", "Description B", "Description C" };

@@ -32,19 +32,19 @@ public class Card {
 		super();
 	}
 
-	public Card(LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscription) {
+	public Card(LocalDate creationDate, User user, Set<Subscription> subscription) {
 		super();
 		this.creationDate = creationDate;
-		this.expirationDate = expirationDate;
+		this.expirationDate = creationDate.plusYears(1);
 		this.user = user;
 		this.subscription = subscription;
 	}
 
-	public Card(long id, LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscription) {
+	public Card(long id, LocalDate creationDate, User user, Set<Subscription> subscription) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
-		this.expirationDate = expirationDate;
+		this.expirationDate = creationDate.plusYears(1);
 		this.user = user;
 		this.subscription = subscription;
 	}
@@ -113,13 +113,13 @@ public class Card {
     }
 
     public void renew() {
-        this.creationDate = LocalDate.now();
-        this.expirationDate = this.creationDate.plusYears(Card.duration);
+        LocalDate today = LocalDate.now();
+        setExpirationDate(today.plusYears(1));
     }
 
-    public static Card randomCard() {
-        Random random = new Random();
-        LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
-        return new Card(creationDate);
-    }
+//    public static Card randomCard() {
+//        Random random = new Random();
+//        LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
+//        return new Card(creationDate);
+//    }
 }

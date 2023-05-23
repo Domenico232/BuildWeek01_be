@@ -1,14 +1,20 @@
 package DAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import utils.JpaUtil;
+import models.Reseller;
 import models.Ticket;
+import models.User;
 
-public class TicketDAO extends Ticket{
+public class TicketDAO implements ITicketDAO{
     public void save(Ticket ticket) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List <Ticket> prendi = ticket.getReseller().getTicketSell();
+        List <Ticket> prendilista = ticket.getReseller().setTicketSell(prendi);
+        prendilista.add(ticket);
         try {
             em.getTransaction().begin();
             em.persist(ticket);
@@ -26,10 +32,8 @@ public class TicketDAO extends Ticket{
         }
     }
 
-    public void saveAll(List<Ticket> ticket) {
-        for (Ticket ticketl : ticket) {
-            save(ticketl);
-        }
+    public void saveAll(Ticket ticket) {
+        
     }
 
     public Ticket getById(Long id) {
@@ -110,5 +114,22 @@ public class TicketDAO extends Ticket{
             em.close();
         }
     }
+
+	@Override
+	public void delete(Long id) {
+		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Ticket u  = em.find(Ticket.class, id);
+            em.remove(u);
+            em.getTransaction().commit();
+            System.out.println("Elemento cancellato dal DB!!");
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println("Errore su salvataggio!!");
+        } finally {
+            em.close();
+        }		
+	}
 
 }

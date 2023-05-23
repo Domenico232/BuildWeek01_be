@@ -20,8 +20,6 @@ public class Trace {
     private String arrival;
     
     private Time averageTimeTravel;
-    
-    
 
     public Trace() {
 
