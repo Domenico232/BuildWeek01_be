@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import dao.CardDAO;
+import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
@@ -20,8 +21,13 @@ import dao.UserDAO;
 public class Main {
 
 	public static void main(String[] args) {
-		insertUsers(10);
-
+		insertUsers(50);
+		insertCards(10);
+		CardDAO cardDAO = new CardDAO();
+		Card card = cardDAO.getById(1);
+		Subscription subscription = Subscription.randomSubscription();
+		card.addSubscription(subscription);
+		cardDAO.update(card);
 	}
 
 	public static void randomSubscriptionTest() {
@@ -75,15 +81,16 @@ public class Main {
 		}
 	}
 
-	public static void insertPass(int quantity) {
-		PassDAO passDAO = new PassDAO();
-		ResellerDAO resellerDAO = new ResellerDAO();
-		List<Reseller> resellers = new ArrayList<>();
-		resellers = resellerDAO.getAll();
-		for (int i = 0; i < quantity; i++) {
-			Pass pass = Subscription.randomSubscription();
-			pass.setReseller(resellers.get(new Random().nextInt(resellers.size())));
-			passDAO.save(pass);
-		}
-	}
+	/*
+	 * public static void insertSubscriptions(int quantity) {
+	 * PassDAO subscriptionDAO = new PassDAO();
+	 * CardDAO cardDAO = new CardDAO();
+	 * List<Card> cards = cardDAO.getAll();
+	 * for (int i = 0; i < quantity; i+=2) {
+	 * Subscription subscription = Subscription.randomSubscription();
+	 * 
+	 * subscriptionDAO.save(subscription);
+	 * }
+	 * }
+	 */
 }

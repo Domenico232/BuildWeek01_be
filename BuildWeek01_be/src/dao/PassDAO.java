@@ -6,18 +6,18 @@ import javax.persistence.TypedQuery;
 import utils.JpaUtil;
 import models.Pass;
 
-public class TicketDAO extends Pass {
-    public void save(Pass ticket) {
+public class PassDAO {
+    public void save(Pass pass) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(ticket);
+            em.persist(pass);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error saving loan: %s",
+                            "Error saving pass: %s",
                             e.getMessage()));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
@@ -26,8 +26,8 @@ public class TicketDAO extends Pass {
         }
     }
 
-    public void saveAll(List<Pass> ticket) {
-        for (Pass ticketl : ticket) {
+    public void saveAll(List<Pass> pass) {
+        for (Pass ticketl : pass) {
             save(ticketl);
         }
     }
@@ -43,7 +43,7 @@ public class TicketDAO extends Pass {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error getting ticket by id: %s", id));
+                            "Error getting pass by id: %s", id));
             System.out.println(e.getMessage());
         } finally {
             em.close();
@@ -57,14 +57,14 @@ public class TicketDAO extends Pass {
         try {
             em.getTransaction().begin();
             TypedQuery<Pass> query = em.createQuery(
-                    "SELECT l FROM Ticket l", Pass.class);
+                    "SELECT p FROM pass p", Pass.class);
             loans = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error getting all loans: %s",
+                            "Error getting all passes: %s",
                             e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
@@ -73,17 +73,17 @@ public class TicketDAO extends Pass {
         return loans;
     }
 
-    public void update(Pass ticket) {
+    public void update(Pass pass) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(ticket);
+            em.merge(pass);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error updating loan: %s",
+                            "Error updating pass: %s",
                             e.getMessage()));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
@@ -96,14 +96,14 @@ public class TicketDAO extends Pass {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            Pass ticket = em.find(Pass.class, id);
-            em.remove(ticket);
+            Pass pass = em.find(Pass.class, id);
+            em.remove(pass);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error removing loan by id: %s", id));
+                            "Error removing pass by id: %s", id));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
         } finally {

@@ -1,10 +1,14 @@
 package models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "cards")
@@ -26,10 +32,10 @@ public class Card {
 	public static int duration;
 
 	@OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Subscription> subscription;
 
 	public Card() {
@@ -115,17 +121,16 @@ public class Card {
 		return LocalDate.now().isAfter(expirationDate);
 	}
 
-    public void renew() {
-        LocalDate today = LocalDate.now();
-        setExpirationDate(today.plusYears(1));
-    }
+	public void renew() {
+		LocalDate today = LocalDate.now();
+		setExpirationDate(today.plusYears(1));
+	}
 
 	public void addSubscription(Subscription subscription) {
 		if (this.subscription == null) {
-			this.subscription = Set.of(subscription);
-		} else {
-			this.subscription.add(subscription);
+			this.subscription = new HashSet <Subscription>();
 		}
+		this.subscription.add(subscription);
 	}
 
 	public static Card randomCard() {
