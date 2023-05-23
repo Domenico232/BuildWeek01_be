@@ -17,11 +17,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Reseller r1 = new Reseller("franco");
-		Ticket t1 = new Ticket("t1", "roma", 10.5, r1, null);
-		Ticket t2 = randomTicketTest();
-		Ticket t3 = randomTicketTest();
-		TicketDAO td1 = new TicketDAO();
-		td1.save(t1);
+		
 		
 //		List <Ticket> lt1 = new ArrayList();
 //		lt1.add(t1);

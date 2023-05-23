@@ -1,7 +1,5 @@
 package models;
 
-import java.util.List;
-
 import enumerates.TypeReseller;
 
 public class VendingMachine extends Reseller {
@@ -10,18 +8,15 @@ public class VendingMachine extends Reseller {
 
 	public VendingMachine() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public VendingMachine(Integer id, String name, List<Ticket> ticketSell, TypeReseller typeReseller) {
+	public VendingMachine(Integer id, String name, TypeReseller typeReseller) {
 		super(id, name);
-	public VendingMachine(Integer id, String name, List<Pass> ticketSell, TypeReseller typeReseller) {
-		super(id, name, ticketSell);
 		this.typeReseller = typeReseller;
 	}
 
-	public VendingMachine(String name, List<Pass> ticketSell, TypeReseller typeReseller) {
-		super(name, ticketSell);
+	public VendingMachine(String name, TypeReseller typeReseller) {
+		super(name);
 		this.typeReseller = typeReseller;
 	}
 

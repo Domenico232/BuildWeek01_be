@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import interfaces.IVendingMachineDAO;
-import models.Reseller;
 import models.TraceTravel;
 import models.VendingMachine;
 import utils.JpaUtil;

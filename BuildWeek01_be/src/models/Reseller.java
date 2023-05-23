@@ -23,7 +23,7 @@ public class Reseller {
 	private String name;
 	
 	@OneToMany
-	private List <Ticket> ticketSell;
+	private List <Pass> ticketSell;
 
 	public Reseller() {
 		super();

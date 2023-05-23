@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 import utils.JpaUtil;
 import models.Pass;
 
-public class TicketDAO extends Pass{
+public class TicketDAO extends Pass {
     public void save(Pass ticket) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -110,3 +110,4 @@ public class TicketDAO extends Pass{
             em.close();
         }
     }
+}

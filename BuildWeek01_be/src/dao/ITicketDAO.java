@@ -1,8 +1,7 @@
-package DAO;
+package dao;
 
 import java.util.List;
 
-import models.Reseller;
 import models.Ticket;
 
 public interface ITicketDAO {
