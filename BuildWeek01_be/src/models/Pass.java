@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Random;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +14,7 @@ public abstract class Pass{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id = -1;
     private String name;
     private String description;
     private double price;

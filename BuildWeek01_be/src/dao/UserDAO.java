@@ -3,17 +3,15 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import interfaces.IUserDAO;
 import models.User;
 import utils.JpaUtil;
 
-public class UserDAO implements IUserDAO{
+public class UserDAO implements IUserDAO {
 
-	
-	
-	@Override
+    @Override
     public void save(User u) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -24,17 +22,18 @@ public class UserDAO implements IUserDAO{
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
+            System.out.println(e.getMessage());
         } finally {
             em.close();
         }
     }
 
-	@Override
+    @Override
     public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u  = em.find(User.class, id );
+            User u = em.find(User.class, id);
             em.remove(u);
             em.getTransaction().commit();
             System.out.println("Elemento cancellato dal DB!!");
@@ -45,13 +44,13 @@ public class UserDAO implements IUserDAO{
             em.close();
         }
     }
-	
-	@Override
-	public User getById(Long id){
+
+    @Override
+    public User getById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u =  em.find(User.class, id);
+            User u = em.find(User.class, id);
             em.getTransaction().commit();
             return u;
         } catch (Exception e) {
@@ -63,7 +62,7 @@ public class UserDAO implements IUserDAO{
         }
     }
 
-	@Override
+    @Override
     public void update(User u) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -79,18 +78,26 @@ public class UserDAO implements IUserDAO{
         }
     }
 
-	
-    @Override
     public List<User> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<User> users = null;
         try {
-            Query q = em.createNamedQuery("tuttiUser");
-            return q.getResultList();
+            em.getTransaction().begin();
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM User u", User.class);
+            users = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error getting all users: %s",
+                            e.getMessage()));
+            System.out.println(e.getMessage());
         } finally {
             em.close();
         }
+        return users;
     }
-	
 
-	
 }

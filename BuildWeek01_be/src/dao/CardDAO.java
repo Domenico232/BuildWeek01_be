@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 
 import interfaces.ICardDAO;
 import models.Card;
+import models.User;
 import utils.JpaUtil;
 
 public class CardDAO implements ICardDAO {
@@ -109,4 +110,5 @@ public class CardDAO implements ICardDAO {
         }
         return cards;
     }
+
 }

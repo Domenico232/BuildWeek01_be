@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 
 import enumerates.TypeSubscription;
 
-
 @Entity
 public class Subscription extends Pass {
     private TypeSubscription typeSubscription;
@@ -27,6 +26,10 @@ public class Subscription extends Pass {
         this.typeSubscription = typeSubscription;
     }
 
+    public long getId() {
+        return super.getId();
+    }
+
     public TypeSubscription getTypeSubscription() {
         return typeSubscription;
     }
@@ -39,14 +42,11 @@ public class Subscription extends Pass {
     public String toString() {
         return super.toString() + ", typeSubscription=" + typeSubscription;
     }
-  
-   
-    
-  
+
     public static Subscription randomSubscription() {
-    	Random random = new Random();
-        String[] names = { "Ticket A", "Ticket B", "Ticket C" };
-        String[] descriptions = { "Description A", "Description B", "Description C" };
+        Random random = new Random();
+        String[] names = { "Subscription A", "Subscription B", "Subscription C" };
+        String[] descriptions = { "Fiera A", "Metro B", "Stazione C" };
         double[] prices = { 10.0, 20.0, 30.0 };
         String name = names[random.nextInt(names.length)];
         String description = descriptions[random.nextInt(descriptions.length)];
@@ -56,8 +56,7 @@ public class Subscription extends Pass {
         subscription.setDescription(description);
         subscription.setPrice(price);
         subscription
-                .setTypeSubscription(TypeSubscription.values(
-                )[new Random().nextInt(TypeSubscription.values().length)]);
+                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         return subscription;
     }
 
