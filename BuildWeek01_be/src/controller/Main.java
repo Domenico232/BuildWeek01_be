@@ -11,19 +11,22 @@ import java.util.List;
 import java.util.Random;
 
 import dao.CardDAO;
+import dao.ResellerDAO;
+import dao.TicketDAO;
 import dao.UserDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Reseller r1 = new Reseller("franco");
-		
-		
-//		List <Ticket> lt1 = new ArrayList();
-//		lt1.add(t1);
-//		lt1.add(t2);
-//		lt1.add(t3);
-		
+		Reseller reseller1 = new Reseller("franco");
+		Reseller reseller2 = new Reseller("marco");
+		Ticket ticket1 = Ticket.randomTicket();
+		Ticket ticket2 = Ticket.randomTicket();
+		ResellerDAO resellerDAO = new ResellerDAO();
+		TicketDAO ticketDAO = new TicketDAO();
+		resellerDAO.save(reseller1);
+		ticket1.setReseller(reseller1);
+		ticketDAO.save(ticket1);
 	}
 
 	public static void randomSubscriptionTest() {
