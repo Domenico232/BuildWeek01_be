@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 import models.Card;
 import utils.JpaUtil;
 
-public class CardDAO {
+public class CardDAO implements ICardDAO {
 
     public void save(Card card) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
