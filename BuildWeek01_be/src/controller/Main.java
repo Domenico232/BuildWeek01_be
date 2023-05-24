@@ -1,8 +1,10 @@
 package controller;
 
 import models.Trace;
+import models.Tram;
 import models.User;
 import models.VendingMachine;
+import models.Bus;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
@@ -16,11 +18,12 @@ import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
+import enumerates.TypeStatus;
 
 public class Main {
 
 	public static void main(String[] args) {
-		insertReseller(300);
+		/* insertReseller(300);
 		UserDAO userDAO = new UserDAO();
 		CardDAO cardDAO = new CardDAO();
 		User user = User.randomUser();
@@ -32,7 +35,13 @@ public class Main {
 		card.setUser(user);
 		cardDAO.save(card);
 		System.out.println(card);
-		System.out.println(machine);
+		System.out.println(machine); */
+		Tram tram = new Tram();
+		tram.setTypeStatus(TypeStatus.SERVIZIO);
+		System.out.println(tram);
+		Bus bus = new Bus();
+		bus.setTypeStatus(TypeStatus.MANUTENZIONE);
+		System.out.println(bus);
 	}
 
 	public static void randomSubscriptionTest() {
