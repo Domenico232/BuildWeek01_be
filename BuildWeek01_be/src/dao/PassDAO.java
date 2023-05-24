@@ -34,12 +34,12 @@ public class PassDAO implements IPassDAO {
 
 	
 	@Override
-    public Pass getById(Long id) {
+    public Pass getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        Pass loan = null;
+        Pass pass = null;
         try {
             em.getTransaction().begin();
-            loan = em.find(Pass.class, id);
+            pass = em.find(Pass.class, id);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -50,7 +50,7 @@ public class PassDAO implements IPassDAO {
         } finally {
             em.close();
         }
-        return loan;
+        return pass;
     }
 
 	@Override
@@ -60,7 +60,7 @@ public class PassDAO implements IPassDAO {
         try {
             em.getTransaction().begin();
             TypedQuery<Pass> query = em.createQuery(
-                    "SELECT p FROM pass p", Pass.class);
+                    "SELECT p FROM Pass p", Pass.class);
             loans = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class PassDAO implements IPassDAO {
 
 
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();

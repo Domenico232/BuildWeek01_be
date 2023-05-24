@@ -23,13 +23,14 @@ public class ResellerDAO implements IResellerDAO{
 	        } catch (Exception e) {
 	            em.getTransaction().rollback();
 	            System.out.println("Errore su salvataggio!!");
+				System.out.println(e.getMessage());
 	        } finally {
 	            em.close();
 	        }
 	    }
 
 		@Override
-	    public void delete(Long id) {
+	    public void delete(long id) {
 	        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
@@ -46,7 +47,7 @@ public class ResellerDAO implements IResellerDAO{
 	    }
 		
 		@Override
-		public Reseller getById(Long id){
+		public Reseller getById(long id){
 	        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();

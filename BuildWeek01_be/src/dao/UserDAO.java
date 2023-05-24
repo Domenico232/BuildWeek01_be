@@ -63,11 +63,11 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User getById(Long id) {
+    public User getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u = em.find(User.class, id);
+            User u = em.find(User.class, id );
             em.getTransaction().commit();
             return u;
         } catch (Exception e) {

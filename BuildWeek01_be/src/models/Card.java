@@ -2,22 +2,17 @@ package models;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "cards")
@@ -28,34 +23,38 @@ public class Card {
 	private long id = -1;
 
 	private LocalDate creationDate;
-	private LocalDate expirationDate = creationDate.plusYears(1);
+	private LocalDate expirationDate;
+	public static int duration = 1;
 
-	@OneToOne(mappedBy = "card")
-	@JoinColumn(name = "user_id")
-	private User user;
-	
 	@OneToOne
-	private Subscription subscription;	
-	
-	//@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	//private Set<Subscription> subscription;
+	private User user;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Subscription> subscriptions;
 
 	public Card() {
 
 	}
 
-	public Card(LocalDate creationDate, User user, Subscription subscription) {
+	public Card(LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
 		super();
 		this.creationDate = creationDate;
+		this.expirationDate = creationDate.plusYears(Card.duration);
 		this.user = user;
-		this.subscription = subscription;
+		this.subscriptions = subscriptions;
 	}
 
-	public Card(long id, LocalDate creationDate, User user, Subscription subscription) {
+	public Card(long id, LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
 		this.id = id;
 		this.creationDate = creationDate;
+		this.expirationDate = creationDate.plusYears(Card.duration);
 		this.user = user;
-		this.subscription = subscription;
+		this.subscriptions = subscriptions;
+	}
+
+	public Card(LocalDate creationDate) {
+		this.creationDate = creationDate;
+		this.expirationDate = creationDate.plusYears(Card.duration);
 	}
 
 	public long getId() {
@@ -82,7 +81,6 @@ public class Card {
 		this.expirationDate = expirationDate;
 	}
 
-
 	public User getUser() {
 		return user;
 	}
@@ -91,18 +89,18 @@ public class Card {
 		this.user = user;
 	}
 
-	public Subscription getSubscription() {
-		return subscription;
+	public Set<Subscription> getSubscription() {
+		return subscriptions;
 	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
+	public void setSubscription(Set<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 	@Override
 	public String toString() {
-		return "Card [id=" + id + ", creationDate=" + creationDate +
-				", expirationDate=" + expirationDate + "]";
+		return "Card [id=" + id + ", creationDate=" + creationDate + ", expirationDate=" + expirationDate
+				+ ", subscriptions=" + subscriptions + ", user=" + user + "]";
 	}
 
 	public boolean isExpired() {
@@ -114,16 +112,11 @@ public class Card {
 		setExpirationDate(today.plusYears(1));
 	}
 
-//	public void addSubscription(Subscription subscription) {
-//		if (this.subscription == null) {
-//			this.subscription = new HashSet <Subscription>();
-//		}
-//		this.subscription.add(subscription);
-//	}
+	public void addSubscription(Subscription subscription) {
+		if (this.subscriptions == null) {
+			this.subscriptions = new HashSet<Subscription>();
+		}
+		this.subscriptions.add(subscription);
+	}
 
-//	public static Card randomCard() {
-//		Random random = new Random();
-//		LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
-//		return new Card(creationDate);
-//	}
 }

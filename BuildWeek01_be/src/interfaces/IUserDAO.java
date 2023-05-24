@@ -11,10 +11,9 @@ public interface IUserDAO {
 
 	void delete(Long id);
 
-	public User getById(Long id);
-
 	public void update(User user);
 
 	public List<User> getAll();
+	User getById(long id);
 
 }

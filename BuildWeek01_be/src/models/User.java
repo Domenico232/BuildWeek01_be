@@ -2,14 +2,11 @@ package models;
 
 import java.util.Random;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 
 @Entity
@@ -23,25 +20,21 @@ public class User {
 
 	private String name;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = true)
-	@JoinColumn(name = "card_id")
-	private Card card;
+	private String surname;
 
 	public User() {
 
 	}
 
-	public User(String name) {
+	public User(String name, String surname) {
 		this.name = name;
+		this.surname = surname;
 	}
 
-	public User(String name, Card card) {
-		this.name = name;
-	}
-
-	public User(Long id, String name, Card card) {
+	public User(Long id, String name, String surname) {
 		this.id = id;
 		this.name = name;
+		this.surname = surname;
 	}
 
 	public Long getId() {
@@ -50,14 +43,6 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
 	}
 
 	public String getName() {
@@ -74,10 +59,17 @@ public class User {
 	}
 
 	public static User randomUser() {
-		String[] names = { "Eren", "Mikasa", "Armin", "Levi", "Erwin", "Hange", "Sasha", "Jean", "Connie", "Historia" };
+		String[] names = {
+				"Eren", "Mikasa", "Armin", "Levi", "Erwin",
+				"Hange", "Sasha", "Jean", "Connie", "Historia" };
+		String[] surnames = {
+				"Yeager", "Ackerman", "Arlelt", "Ackerman", "Smith",
+				"Zoë", "Braus", "Kirschtein", "Springer", "Reiss" };
 		Random rand = new Random();
-		String randomName = names[rand.nextInt(names.length)];
-		return new User(randomName);
+		int index = rand.nextInt(names.length);
+		String randomName = names[index];
+		String randomSurname = surnames[index];
+		return new User(randomName, randomSurname);
 	}
 
 }

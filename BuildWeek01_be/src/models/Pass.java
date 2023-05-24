@@ -18,7 +18,7 @@ import javax.persistence.Query;
 import utils.JpaUtil;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Pass {
 
     @Id
