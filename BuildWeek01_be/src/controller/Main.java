@@ -12,7 +12,7 @@ import java.util.Random;
 
 import dao.CardDAO;
 import dao.ResellerDAO;
-import dao.TicketDAO;
+import dao.PassDAO;
 import dao.UserDAO;
 
 public class Main {
@@ -23,10 +23,17 @@ public class Main {
 		Ticket ticket1 = Ticket.randomTicket();
 		Ticket ticket2 = Ticket.randomTicket();
 		ResellerDAO resellerDAO = new ResellerDAO();
-		TicketDAO ticketDAO = new TicketDAO();
-		resellerDAO.save(reseller1);
-		ticket1.setReseller(reseller1);
-		ticketDAO.save(ticket1);
+		PassDAO pd1 = new PassDAO();
+		
+		Subscription subscription = Subscription.randomSubscription();
+		Subscription subscription2 = Subscription.randomSubscription();
+		//pd1.save(subscription);
+		//pd1.save(subscription2);
+		
+		resellerDAO.save(reseller2);
+		ticket1.setReseller(reseller2);
+		subscription.setReseller(reseller1);
+		//pd1.save(ticket1);
 	}
 
 	public static void randomSubscriptionTest() {

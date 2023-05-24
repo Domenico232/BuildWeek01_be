@@ -1,5 +1,7 @@
 package models;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ public abstract class Pass {
     private String name;
     private String description;
     private double price;
+    private LocalDate emissionDate = LocalDate.now();
 
     @OneToOne
     private Trace trace;
@@ -92,8 +95,16 @@ public abstract class Pass {
     public void setReseller(Reseller reseller) {
         this.reseller = reseller;
     }
+    
+    public LocalDate getEmissionDate() {
+		return emissionDate;
+	}
 
-    @Override
+	public void setEmissionDate(LocalDate emissionDate) {
+		this.emissionDate = emissionDate;
+	}
+
+	@Override
     public String toString() {
         return "Ticket [id=" + id + ", name=" + name + ", description=" +
                 description + ", price=" + price + "]";

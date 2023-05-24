@@ -1,14 +1,14 @@
-package dao;
+package interfaces;
 
 import java.util.List;
 
-import models.Ticket;
+import models.Pass;
 
-public interface ITicketDAO {
+public interface IPassDAO {
 	
-	public void save(Ticket r);
+	public void save(Pass r);
 	void delete(Long id);
-	public Ticket getById(Long id);
-	public void update(Ticket e);
-	public List<Ticket> getAll();
+	public Pass getById(Long id);
+	public void update(Pass e);
+	public List<Pass> getAll();
 }

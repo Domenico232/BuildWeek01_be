@@ -3,15 +3,21 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+
+import interfaces.IPassDAO;
 import utils.JpaUtil;
 import models.Pass;
+import models.Ticket;
+import models.User;
 
-public class TicketDAO extends Pass {
-    public void save(Pass ticket) {
+public class PassDAO implements IPassDAO {
+	
+	@Override
+    public void save(Pass p) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(ticket);
+            em.persist(p);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -26,12 +32,8 @@ public class TicketDAO extends Pass {
         }
     }
 
-    public void saveAll(List<Pass> ticket) {
-        for (Pass ticketl : ticket) {
-            save(ticketl);
-        }
-    }
-
+	
+	@Override
     public Pass getById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         Pass loan = null;
@@ -51,13 +53,14 @@ public class TicketDAO extends Pass {
         return loan;
     }
 
+	@Override
     public List<Pass> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         List<Pass> loans = null;
         try {
             em.getTransaction().begin();
             TypedQuery<Pass> query = em.createQuery(
-                    "SELECT l FROM Ticket l", Pass.class);
+                    "SELECT l FROM Pass l", Pass.class);
             loans = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -73,11 +76,12 @@ public class TicketDAO extends Pass {
         return loans;
     }
 
-    public void update(Pass ticket) {
+    @Override
+    public void update(Pass pass) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(ticket);
+            em.merge(pass);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -92,20 +96,19 @@ public class TicketDAO extends Pass {
         }
     }
 
-    public void removeById(Long id) {
+
+    @Override
+    public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            Pass ticket = em.find(Pass.class, id);
-            em.remove(ticket);
+            Pass u = em.find(Pass.class, id);
+            em.remove(u);
             em.getTransaction().commit();
+            System.out.println("Elemento cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Error removing loan by id: %s", id));
-            em.getTransaction().rollback();
-            System.out.println(e.getMessage());
+            System.out.println("Errore su salvataggio!!");
         } finally {
             em.close();
         }
