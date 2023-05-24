@@ -18,7 +18,6 @@ public class UserDAO implements IUserDAO {
             em.getTransaction().begin();
             em.persist(u);
             em.getTransaction().commit();
-            System.out.println("User salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -35,7 +34,6 @@ public class UserDAO implements IUserDAO {
             em.getTransaction().begin();
             em.persist(users);
             em.getTransaction().commit();
-            System.out.println("User salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -53,7 +51,6 @@ public class UserDAO implements IUserDAO {
             User u = em.find(User.class, id);
             em.remove(u);
             em.getTransaction().commit();
-            System.out.println("Elemento cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -67,7 +64,7 @@ public class UserDAO implements IUserDAO {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            User u = em.find(User.class, id );
+            User u = em.find(User.class, id);
             em.getTransaction().commit();
             return u;
         } catch (Exception e) {
@@ -86,7 +83,6 @@ public class UserDAO implements IUserDAO {
             em.getTransaction().begin();
             em.merge(u);
             em.getTransaction().commit();
-            System.out.println("User salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -109,6 +105,29 @@ public class UserDAO implements IUserDAO {
             System.out.println(
                     String.format(
                             "Error getting all users: %s",
+                            e.getMessage()));
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return users;
+    }
+
+    public List<User> getAllWithoutCard() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<User> users = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM User u LEFT JOIN Card c ON u.id=c.user.id WHERE c.id IS NULL",
+                    User.class);
+            users = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error getting all users without card: %s",
                             e.getMessage()));
             System.out.println(e.getMessage());
         } finally {

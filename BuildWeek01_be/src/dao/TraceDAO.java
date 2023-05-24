@@ -1,11 +1,13 @@
 package dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import models.Trace;
 import utils.JpaUtil;
 
 import java.util.Set;
+import java.util.List;
 
 public class TraceDAO {
     public void save(Trace trace) {
@@ -67,6 +69,27 @@ public class TraceDAO {
         } finally {
             em.close();
         }
+    }
+
+    public List<Trace> getAll() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Trace> traces = null;
+        try {
+            em.getTransaction().begin();
+            TypedQuery<Trace> query = em.createQuery("SELECT t FROM Trace t", Trace.class);
+            traces = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error getting all traces: %s",
+                            e.getMessage()));
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return traces;
     }
 
 }

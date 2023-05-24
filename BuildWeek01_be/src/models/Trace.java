@@ -3,6 +3,7 @@ package models;
 import java.sql.Time;
 import java.util.Random;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,8 @@ public class Trace {
 	
     private String departure;
     private String arrival;
+
+    @Column(name = "average_time_travel")
     private Time averageTimeTravel;
 
     public Trace() {

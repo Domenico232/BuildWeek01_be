@@ -8,16 +8,16 @@ import javax.persistence.TypedQuery;
 import interfaces.IVeicleDAO;
 import models.Veicle;
 import utils.JpaUtil;
-public class VeicleDAO implements IVeicleDAO{
 
-   @Override
-	public void save(Veicle v) {
+public class VeicleDAO implements IVeicleDAO {
+
+    @Override
+    public void save(Veicle v) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(v);
             em.getTransaction().commit();
-            System.out.println("Veicle salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -26,15 +26,14 @@ public class VeicleDAO implements IVeicleDAO{
         }
     }
 
-	@Override
+    @Override
     public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            Veicle v  = em.find(Veicle.class, id );
+            Veicle v = em.find(Veicle.class, id);
             em.remove(v);
             em.getTransaction().commit();
-            System.out.println("Veicle cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -42,13 +41,13 @@ public class VeicleDAO implements IVeicleDAO{
             em.close();
         }
     }
-	
-	@Override
-	public Veicle getById(Long id){
+
+    @Override
+    public Veicle getById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            Veicle v =  em.find(Veicle.class, id);
+            Veicle v = em.find(Veicle.class, id);
             em.getTransaction().commit();
             return v;
         } catch (Exception e) {
@@ -60,14 +59,13 @@ public class VeicleDAO implements IVeicleDAO{
         }
     }
 
-	@Override
+    @Override
     public void update(Veicle v) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(v);
             em.getTransaction().commit();
-            System.out.println("Veicle salvato nel DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
@@ -76,7 +74,6 @@ public class VeicleDAO implements IVeicleDAO{
         }
     }
 
-	
     @Override
     public List<Veicle> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
@@ -88,8 +85,4 @@ public class VeicleDAO implements IVeicleDAO{
         }
     }
 
-
-	
-
-	
 }

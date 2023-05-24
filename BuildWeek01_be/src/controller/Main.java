@@ -1,6 +1,7 @@
 package controller;
 
 import models.Trace;
+import models.TraceTraveled;
 import models.Tram;
 import models.User;
 import models.VendingMachine;
@@ -8,79 +9,24 @@ import models.Bus;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
-import models.Ticket;
-
-import java.time.LocalDate;
 import java.util.List;
-
 import dao.CardDAO;
-import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
-import enumerates.TypeStatus;
-import enumerates.TypeSubscription;
+import dao.VeicleDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
-		//insertReseller(300);
-		UserDAO userDAO = new UserDAO();
-		CardDAO cardDAO = new CardDAO();
-		User user = User.randomUser();
-		Card card = new Card(LocalDate.now());
-		Subscription subscription = Subscription.randomSubscription();
-		
-		Reseller r1 = new Reseller("FRANCO");
-		ResellerDAO rs = new ResellerDAO();
-		rs.save(r1);
-		
-		Subscription subscription2 = new Subscription ("s1","descrizione1", 200.00, r1, TypeSubscription.MONTHLY  );
-		PassDAO  ps = new PassDAO();
-		ps.save(subscription2);
-		System.out.println("SUB " + subscription2);
-		
-		
-		card.addSubscription(subscription2);
-		userDAO.save(user);
-		card.setUser(user);
-		cardDAO.save(card);
-		insertTraces(1);
-		Tram tram = new Tram();
-		tram.setTypeStatus(TypeStatus.SERVIZIO);
-		Bus bus = new Bus();
-		bus.setTypeStatus(TypeStatus.MANUTENZIONE);
-		
-		
-		cardDAO.verificaValidita(1);
-		
-	}
+		insertUsers(100);
+		insertCards(15);
+		insertTraces(50);
+		insertBuses(5);
+		TraceTraveled.randomTraceTraveled();
 
-	public static void randomSubscriptionTest() {
-		Subscription subscription = Subscription.randomSubscription();
-		System.out.println(subscription);
-	}
-
-	public static Ticket randomTicketTest() {
-		Ticket ticket = Ticket.randomTicket();
-		System.out.println(ticket);
-		return ticket;
-	}
-
-	public static void randomTraceTest() {
-		Trace trace = Trace.randomTrace();
-		System.out.println(trace);
-	}
-
-	public static void cardDAOTEst() {
-		CardDAO cardDAO = new CardDAO();
-		cardDAO.saveAll(List.of(
-				Card.randomCard(), Card.randomCard(), Card.randomCard()));
-	}
-
-	public static void randomCardTest() {
-		Card card = Card.randomCard();
-		System.out.println(card);
+		// insertReseller(20);
+		// System.out.println(Tram.randomTram());
 	}
 
 	public static void insertUsers(int quantity) {
@@ -103,16 +49,17 @@ public class Main {
 		TraceDAO traceDAO = new TraceDAO();
 		for (int i = 0; i < quantity; i++) {
 			Trace trace = Trace.randomTrace();
-			System.out.println(trace);
 			traceDAO.save(trace);
 		}
 	}
 
 	public static void insertSubscriptions(int quantity) {
-		PassDAO subscriptionDAO = new PassDAO();
+		CardDAO cardDAO = new CardDAO();
+		List<Card> cards = cardDAO.getAll();
 		for (int i = 0; i < quantity; i++) {
 			Subscription subscription = Subscription.randomSubscription();
-			subscriptionDAO.save(subscription);
+			Card card = cards.get(i % quantity + 1);
+			card.addSubscription(subscription);
 		}
 	}
 
@@ -127,6 +74,14 @@ public class Main {
 				resellerDAO.save(machine);
 			}
 
+		}
+	}
+
+	public static void insertBuses(int quantity) {
+		VeicleDAO busDAO = new VeicleDAO();
+		for (int i = 0; i < quantity; i++) {
+			Bus bus = Bus.randomBus();
+			busDAO.save(bus);
 		}
 	}
 
