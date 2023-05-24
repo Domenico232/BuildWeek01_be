@@ -8,6 +8,7 @@ import models.Reseller;
 import models.Subscription;
 import models.Ticket;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,18 +23,25 @@ import enumerates.TypeSubscription;
 public class Main {
 
 	public static void main(String[] args) {
-		insertUsers(50);
-		insertCards(10);
-		CardDAO cardDAO = new CardDAO();
-		Card card = cardDAO.getById(1);
 		UserDAO userDAO = new UserDAO();
-		Subscription subscription = Subscription.randomSubscription();
+		CardDAO cardDAO = new CardDAO();
+		ResellerDAO resellerDAO = new ResellerDAO();
+		Reseller reseller = new Reseller("pippo franco");
+		User user = new User("clara");
+        Card card = new Card(LocalDate.now());
+		Subscription subscription = new Subscription(
+			"sub1",
+			"test purpose",
+			200.8,
+			reseller,
+			TypeSubscription.MONTHLY
+		);
 		card.addSubscription(subscription);
-		cardDAO.update(card);
-		User  user1 = userDAO.getById(2);
-		user1.setCard(card);
-		userDAO.update(user1);
-		
+		resellerDAO.save(reseller);
+		userDAO.save(user);
+		card.setUser(user);
+		cardDAO.save(card);
+		System.out.println(card);
 	}
 
 	public static void randomSubscriptionTest() {
@@ -87,16 +95,11 @@ public class Main {
 		}
 	}
 
-	/*
-	 * public static void insertSubscriptions(int quantity) {
-	 * PassDAO subscriptionDAO = new PassDAO();
-	 * CardDAO cardDAO = new CardDAO();
-	 * List<Card> cards = cardDAO.getAll();
-	 * for (int i = 0; i < quantity; i+=2) {
-	 * Subscription subscription = Subscription.randomSubscription();
-	 * 
-	 * subscriptionDAO.save(subscription);
-	 * }
-	 * }
-	 */
+	public static void insertSubscriptions(int quantity) {
+		PassDAO subscriptionDAO = new PassDAO();
+		for (int i = 0; i < quantity; i++) {
+			Subscription subscription = Subscription.randomSubscription();
+			subscriptionDAO.save(subscription);
+		}
+	}
 }

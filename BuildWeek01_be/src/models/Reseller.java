@@ -4,11 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.InheritanceType;
 
 @Entity
 @Table(name = "resellers")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NamedQuery(name = "tuttiReseller", query = "SELECT r FROM Reseller r")
 
 public class Reseller {
