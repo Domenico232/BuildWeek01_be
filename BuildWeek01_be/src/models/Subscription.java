@@ -17,13 +17,18 @@ public class Subscription extends Pass {
         super();
     }
 
-    public Subscription(String name, String description, double price,
+    public Subscription(String name, String description, double price, Reseller reseller,
             TypeSubscription typeSubscription) {
-        super(name, description, price);
+        super(name, description, price, reseller);
         this.typeSubscription = typeSubscription;
     }
+    
+    public Subscription(long id, String name, String description, double price, Reseller reseller, TypeSubscription typeSubscription) {
+		super(id, name, description, price, reseller);
+        this.typeSubscription = typeSubscription;
+	}
 
-    public long getId() {
+	public long getId() {
         return super.getId();
     }
 

@@ -17,6 +17,7 @@ import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
+import enumerates.TypeSubscription;
 
 public class Main {
 
@@ -28,22 +29,12 @@ public class Main {
 		ResellerDAO resellerDAO = new ResellerDAO();
 		PassDAO pd1 = new PassDAO();
 		
-		Subscription subscription = Subscription.randomSubscription();
-		Subscription subscription2 = Subscription.randomSubscription();
-		//pd1.save(subscription);
-		//pd1.save(subscription2);
+		resellerDAO.save(reseller1);
 		
-		resellerDAO.save(reseller2);
-		ticket1.setReseller(reseller2);
-		subscription.setReseller(reseller1);
-		//pd1.save(ticket1);
-		insertUsers(50);
-		insertCards(10);
-		CardDAO cardDAO = new CardDAO();
-		Card card = cardDAO.getById(1);
-		Subscription subscription = Subscription.randomSubscription();
-		card.addSubscription(subscription);
-		cardDAO.update(card);
+		//Ticket tt1 = new Ticket("ciao", "stoca", 18.2, reseller2, false);
+		Subscription s1 = new Subscription("abbonamento 1", "Lombardia", 1300.2, reseller1, TypeSubscription.MONTHLY);
+		pd1.save(s1);
+		
 	}
 
 	public static void randomSubscriptionTest() {

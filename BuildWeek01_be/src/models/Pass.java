@@ -40,16 +40,17 @@ public abstract class Pass {
         this.price = price;
     }
 
-    public Pass(long id, String name, String description, double price) {
+    public Pass(long id, String name, String description, double price,
+            Reseller reseller) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.reseller = reseller;
     }
-
-    public Pass(int id, String name, String description, double price,
+    
+    public Pass(String name, String description, double price,
             Reseller reseller) {
-        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
