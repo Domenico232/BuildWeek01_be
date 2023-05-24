@@ -5,7 +5,6 @@ import java.util.Random;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Table;
 
 import enumerates.TypeVendingMachine;
 
