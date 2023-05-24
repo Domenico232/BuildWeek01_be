@@ -5,17 +5,27 @@ import java.util.Random;
 import javax.persistence.Entity;
 
 @Entity
-public class Ticket extends Pass {
-	private Boolean endorsed;
+public class Ticket extends Pass{
+	private Boolean endorsed = false;
 
-	public Ticket() {
+    public Ticket() {
 
 	}
+
+    public Ticket(String name, String description, double price) {
+		super(name, description, price);
+    }
 
 	public Ticket(String name, String description, double price, Boolean endorsed) {
 		super(name, description, price);
 		this.endorsed = endorsed;
 
+	}
+
+	public Ticket(long id, String name, String description, double price, Boolean endorsed) {
+		super(id, name, description, price);
+		this.endorsed = endorsed;
+		
 	}
 
 	public Boolean getEndorsed() {
@@ -26,11 +36,10 @@ public class Ticket extends Pass {
 		this.endorsed = endorsed;
 	}
 
-	@Override
-	public String toString() {
-		return "Ticket [id=" + super.getId() + ", name=" + super.getName() + ", description=" +
-				super.getDescription() + ", price=" + super.getPrice() + "]";
-	}
+    @Override
+    public String toString() {
+		return super.toString() + "Ticket [endorsed=" + endorsed + "]";
+    }
 
 	public static Ticket randomTicket() {
 		Random random = new Random();

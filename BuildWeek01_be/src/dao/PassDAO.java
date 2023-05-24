@@ -23,7 +23,7 @@ public class PassDAO implements IPassDAO {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error saving loan: %s",
+                            "Error saving pass: %s",
                             e.getMessage()));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
@@ -45,7 +45,7 @@ public class PassDAO implements IPassDAO {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error getting ticket by id: %s", id));
+                            "Error getting pass by id: %s", id));
             System.out.println(e.getMessage());
         } finally {
             em.close();
@@ -60,14 +60,14 @@ public class PassDAO implements IPassDAO {
         try {
             em.getTransaction().begin();
             TypedQuery<Pass> query = em.createQuery(
-                    "SELECT l FROM Pass l", Pass.class);
+                    "SELECT p FROM pass p", Pass.class);
             loans = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error getting all loans: %s",
+                            "Error getting all passes: %s",
                             e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
@@ -87,7 +87,7 @@ public class PassDAO implements IPassDAO {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error updating loan: %s",
+                            "Error updating pass: %s",
                             e.getMessage()));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
@@ -102,13 +102,17 @@ public class PassDAO implements IPassDAO {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            Pass u = em.find(Pass.class, id);
-            em.remove(u);
+            Pass pass = em.find(Pass.class, id);
+            em.remove(pass);
             em.getTransaction().commit();
             System.out.println("Elemento cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
-            System.out.println("Errore su salvataggio!!");
+            System.out.println(
+                    String.format(
+                            "Error removing pass by id: %s", id));
+            em.getTransaction().rollback();
+            System.out.println(e.getMessage());
         } finally {
             em.close();
         }
