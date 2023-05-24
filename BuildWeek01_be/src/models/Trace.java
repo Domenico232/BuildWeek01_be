@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name = "traces")
 public class Trace {
 	
 	@Id
@@ -18,7 +20,6 @@ public class Trace {
 	
     private String departure;
     private String arrival;
-    
     private Time averageTimeTravel;
 
     public Trace() {
@@ -26,7 +27,6 @@ public class Trace {
     }
 
     public Trace(String departure, String arrival, Time averageTimeTravel) {
-        this.id = -1;
         this.departure = departure;
         this.arrival = arrival;
         this.averageTimeTravel = averageTimeTravel;

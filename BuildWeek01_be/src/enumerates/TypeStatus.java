@@ -1,6 +1,6 @@
 package enumerates;
 
-public enum ServiceVeicle {
+public enum TypeStatus {
 	SERVIZIO,
 	MANUTENZIONE
 }

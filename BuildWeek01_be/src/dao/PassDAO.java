@@ -9,8 +9,6 @@ import javax.persistence.TypedQuery;
 import interfaces.IPassDAO;
 import utils.JpaUtil;
 import models.Pass;
-import models.Ticket;
-import models.User;
 
 public class PassDAO implements IPassDAO {
 	

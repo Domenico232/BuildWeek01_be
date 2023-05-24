@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import enumerates.TypeVendingMachine;
 
 @Entity
-@Table(name = "vending_machines")
 public class VendingMachine extends Reseller {
 
 	@Enumerated(EnumType.STRING)

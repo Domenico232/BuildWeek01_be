@@ -53,9 +53,17 @@ public class User {
 		this.name = name;
 	}
 
+	public String getSurname() {
+		return this.surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + "]";
+		return "User [id=" + id + ", name=" + name + ", surname=" + surname + "]";
 	}
 
 	public static User randomUser() {

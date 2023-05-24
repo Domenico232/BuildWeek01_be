@@ -1,21 +1,27 @@
 package controller;
 
 import models.Trace;
+import models.Tram;
 import models.User;
+import models.VeicleStatusTime;
 import models.VendingMachine;
+import models.Bus;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import dao.CardDAO;
 import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
+import enumerates.TypeStatus;
 import enumerates.TypeSubscription;
 
 public class Main {
@@ -26,7 +32,6 @@ public class Main {
 		CardDAO cardDAO = new CardDAO();
 		User user = User.randomUser();
 		Card card = new Card(LocalDate.now());
-		VendingMachine machine = VendingMachine.randomVendingMachine();
 		Subscription subscription = Subscription.randomSubscription();
 		
 		Reseller r1 = new Reseller("FRANCO");
@@ -43,8 +48,11 @@ public class Main {
 		userDAO.save(user);
 		card.setUser(user);
 		cardDAO.save(card);
-		System.out.println(card);
-		System.out.println(machine);
+		insertTraces(1);
+		Tram tram = new Tram();
+		tram.setTypeStatus(TypeStatus.SERVIZIO);
+		Bus bus = new Bus();
+		bus.setTypeStatus(TypeStatus.MANUTENZIONE);
 		
 		
 		cardDAO.verificaValidita(1);
@@ -98,6 +106,7 @@ public class Main {
 		TraceDAO traceDAO = new TraceDAO();
 		for (int i = 0; i < quantity; i++) {
 			Trace trace = Trace.randomTrace();
+			System.out.println(trace);
 			traceDAO.save(trace);
 		}
 	}
