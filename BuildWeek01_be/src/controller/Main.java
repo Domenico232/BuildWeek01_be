@@ -3,6 +3,7 @@ package controller;
 import models.Trace;
 import models.Tram;
 import models.User;
+import models.VeicleStatusTime;
 import models.VendingMachine;
 import models.Bus;
 import models.Card;
@@ -11,7 +12,9 @@ import models.Subscription;
 import models.Ticket;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import dao.CardDAO;
 import dao.PassDAO;
@@ -23,25 +26,21 @@ import enumerates.TypeStatus;
 public class Main {
 
 	public static void main(String[] args) {
-		/* insertReseller(300);
+		insertReseller(300);
 		UserDAO userDAO = new UserDAO();
 		CardDAO cardDAO = new CardDAO();
 		User user = User.randomUser();
 		Card card = new Card(LocalDate.now());
-		VendingMachine machine = VendingMachine.randomVendingMachine();
 		Subscription subscription = Subscription.randomSubscription();
 		card.addSubscription(subscription);
 		userDAO.save(user);
 		card.setUser(user);
 		cardDAO.save(card);
-		System.out.println(card);
-		System.out.println(machine); */
+		insertTraces(1);
 		Tram tram = new Tram();
 		tram.setTypeStatus(TypeStatus.SERVIZIO);
-		System.out.println(tram);
 		Bus bus = new Bus();
 		bus.setTypeStatus(TypeStatus.MANUTENZIONE);
-		System.out.println(bus);
 	}
 
 	public static void randomSubscriptionTest() {
@@ -91,6 +90,7 @@ public class Main {
 		TraceDAO traceDAO = new TraceDAO();
 		for (int i = 0; i < quantity; i++) {
 			Trace trace = Trace.randomTrace();
+			System.out.println(trace);
 			traceDAO.save(trace);
 		}
 	}
