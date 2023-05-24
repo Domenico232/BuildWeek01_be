@@ -16,23 +16,39 @@ import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
+import enumerates.TypeSubscription;
 
 public class Main {
 
 	public static void main(String[] args) {
-		insertReseller(300);
+		//insertReseller(300);
 		UserDAO userDAO = new UserDAO();
 		CardDAO cardDAO = new CardDAO();
 		User user = User.randomUser();
 		Card card = new Card(LocalDate.now());
 		VendingMachine machine = VendingMachine.randomVendingMachine();
 		Subscription subscription = Subscription.randomSubscription();
-		card.addSubscription(subscription);
+		
+		Reseller r1 = new Reseller("FRANCO");
+		ResellerDAO rs = new ResellerDAO();
+		rs.save(r1);
+		
+		Subscription subscription2 = new Subscription ("s1","descrizione1", 200.00, r1, TypeSubscription.MONTHLY  );
+		PassDAO  ps = new PassDAO();
+		ps.save(subscription2);
+		System.out.println("SUB " + subscription2);
+		
+		
+		card.addSubscription(subscription2);
 		userDAO.save(user);
 		card.setUser(user);
 		cardDAO.save(card);
 		System.out.println(card);
 		System.out.println(machine);
+		
+		
+		cardDAO.verificaValidita(1);
+		
 	}
 
 	public static void randomSubscriptionTest() {

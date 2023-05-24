@@ -1,11 +1,13 @@
 package models;
 
 import java.util.Random;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 
 import dao.ResellerDAO;
 import enumerates.TypeSubscription;
@@ -14,7 +16,11 @@ import enumerates.TypeSubscription;
 public class Subscription extends Pass {
     @Enumerated(EnumType.STRING)
     private TypeSubscription typeSubscription;
-
+   private LocalDate dataScadenza;
+   
+   @OneToOne
+   private Card card;
+   
     public Subscription() {
         super();
     }
@@ -22,7 +28,14 @@ public class Subscription extends Pass {
     public Subscription(String name, String description, double price, Reseller reseller,
             TypeSubscription typeSubscription) {
         super(name, description, price, reseller);
-        this.typeSubscription = typeSubscription;
+        if( typeSubscription == typeSubscription.MONTHLY) {
+        	this.dataScadenza =super.getEmissionDate().plusMonths(1); 
+        	this.typeSubscription = typeSubscription;
+           }else if (typeSubscription == typeSubscription.WEEKLY) {
+        	  this.dataScadenza =super.getEmissionDate().plusWeeks(1); 	 
+        	  this.typeSubscription = typeSubscription;
+           }
+        
     }
     
     public Subscription(long id, String name, String description, double price, Reseller reseller, TypeSubscription typeSubscription) {
@@ -42,11 +55,16 @@ public class Subscription extends Pass {
         this.typeSubscription = typeSubscription;
     }
 
+//    @Override
+//    public String toString() {
+//        return super.toString() + "Subscription [typeSubscription=" + typeSubscription + "]";
+//    }
+
     @Override
     public String toString() {
-        return super.toString() + "Subscription [typeSubscription=" + typeSubscription + "]";
+    	return "Subscription [typeSubscription=" + typeSubscription + ", dataScadenza=" + dataScadenza + "]";
     }
-
+    
     public static Subscription randomSubscription() {
         ResellerDAO resellerDAO = new ResellerDAO();
 		List<Reseller> resellers = resellerDAO.getAll();
@@ -66,10 +84,11 @@ public class Subscription extends Pass {
         subscription.setName(name);
         subscription.setDescription(description);
         subscription.setPrice(price);
-        subscription
-                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
+        subscription.setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
+      
         subscription.setReseller(reseller);
         return subscription;
     }
+
 
 }

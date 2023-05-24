@@ -1,7 +1,9 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import interfaces.IPassDAO;
@@ -113,6 +115,28 @@ public class PassDAO implements IPassDAO {
                             "Error removing pass by id: %s", id));
             em.getTransaction().rollback();
             System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Pass> listaTotPass(long id, LocalDate inizio, LocalDate fine) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            Query query = em.createQuery("SELECT p FROM Pass p WHERE p.reseller.id = :id AND p.emissionDate BETWEEN :startDate AND :endDate");
+            query.setParameter("id", id);
+            query.setParameter("startDate", inizio);
+            query.setParameter("endDate", fine);
+            List<Pass> we = query.getResultList();
+            return we;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Errore durante la ricerca di tutte le carte: %s",
+                            e.getMessage()));
+            System.out.println(e.getMessage());
+            return null ;
         } finally {
             em.close();
         }

@@ -2,10 +2,13 @@ package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import interfaces.ICardDAO;
 import models.Card;
+import models.Pass;
+import models.Subscription;
 import utils.JpaUtil;
 
 public class CardDAO implements ICardDAO {
@@ -108,6 +111,29 @@ public class CardDAO implements ICardDAO {
             em.close();
         }
         return cards;
+    }
+    
+    
+    public List<Card> verificaValidita (long id) {
+    	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+    	Card card = null;
+    	List<Card> query = null;
+    	try {
+    		TypedQuery<Card> query1 = em.createQuery("SELECT c FROM Card c WHERE c.id = :id  ", Card.class);
+              query1.setParameter("id", id);
+            	query = query1.getResultList();	
+         } catch (Exception e) {
+             em.getTransaction().rollback();
+             System.out.println(
+                     String.format(
+                             "Errore durante la ricerca di tutte le carte: %s",
+                             e.getMessage()));
+             System.out.println(e.getMessage());
+         } finally {
+             em.close();
+         }
+    	System.out.println(query);
+		return query;
     }
 
 }
