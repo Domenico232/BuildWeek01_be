@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import models.Trace;
 import utils.JpaUtil;
 
-import java.util.List;
+import java.util.Set;
 
 public class TraceDAO {
     public void save(Trace trace) {
@@ -26,7 +26,7 @@ public class TraceDAO {
         }
     }
 
-    public void saveAll(List<Trace> traces) {
+    public void saveAll(Set<Trace> traces) {
         for (Trace trace : traces) {
             save(trace);
         }

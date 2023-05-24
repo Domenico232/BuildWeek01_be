@@ -8,31 +8,31 @@ import javax.persistence.Entity;
 import enumerates.TypeStatus;
 
 @Entity
-public class Tram extends Veicle {
+public class Bus extends Veicle {
 
 	@Column(nullable = false)
-	private static int seats = 100;
+	private static int seats = 30;
 
-	public Tram() {
+	public Bus() {
 
 	}
 
-	public Tram(TypeStatus typeStatus, List<Trace> traces) {
+	public Bus(TypeStatus typeStatus, List<Trace> traces) {
 		this.typeStatus = typeStatus;
 		this.traces = traces;
 	}
 
 	public static int getSeats() {
-		return Tram.seats;
+		return Bus.seats;
 	}
 
 	public static void setSeats(int seats) {
-		Tram.seats = seats;
+		Bus.seats = seats;
 	}
 
 	@Override
 	public String toString() {
-		return "Tram [id=" + id + ", typeStatus=" + typeStatus + ", traces=" + traces + "]";
+		return "Bus [id=" + id + ", typeStatus=" + typeStatus + ", traces=" + traces + ", seats=" + Bus.seats + "]";
 	}
 
 }

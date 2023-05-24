@@ -3,7 +3,7 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import interfaces.IVeicleDAO;
 import models.Veicle;
@@ -81,8 +81,8 @@ public class VeicleDAO implements IVeicleDAO{
     public List<Veicle> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
-            Query q = em.createNamedQuery("tuttiVeicle");
-            return q.getResultList();
+            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v", Veicle.class);
+            return query.getResultList();
         } finally {
             em.close();
         }
