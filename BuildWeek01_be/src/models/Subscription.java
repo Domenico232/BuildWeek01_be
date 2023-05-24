@@ -28,10 +28,10 @@ public class Subscription extends Pass {
     public Subscription(String name, String description, double price, Reseller reseller,
             TypeSubscription typeSubscription) {
         super(name, description, price, reseller);
-        if( typeSubscription == typeSubscription.MONTHLY) {
+        if( typeSubscription == TypeSubscription.MONTHLY) {
         	this.dataScadenza =super.getEmissionDate().plusMonths(1); 
         	this.typeSubscription = typeSubscription;
-           }else if (typeSubscription == typeSubscription.WEEKLY) {
+           }else if (typeSubscription == TypeSubscription.WEEKLY) {
         	  this.dataScadenza =super.getEmissionDate().plusWeeks(1); 	 
         	  this.typeSubscription = typeSubscription;
            }

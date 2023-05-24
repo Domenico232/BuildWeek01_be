@@ -2,13 +2,10 @@ package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import interfaces.ICardDAO;
 import models.Card;
-import models.Pass;
-import models.Subscription;
 import utils.JpaUtil;
 
 public class CardDAO implements ICardDAO {
@@ -116,7 +113,6 @@ public class CardDAO implements ICardDAO {
     
     public List<Card> verificaValidita (long id) {
     	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-    	Card card = null;
     	List<Card> query = null;
     	try {
     		TypedQuery<Card> query1 = em.createQuery("SELECT c FROM Card c WHERE c.id = :id  ", Card.class);
