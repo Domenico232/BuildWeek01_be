@@ -29,7 +29,7 @@ public class Card {
 
 	private LocalDate creationDate;
 	private LocalDate expirationDate;
-	public static int duration;
+	public static int duration = 1;
 
 	@OneToOne
 	private User user;
@@ -44,7 +44,7 @@ public class Card {
 	public Card(LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
 		super();
 		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(1);
+		this.expirationDate = creationDate.plusYears(Card.duration);
 		this.user = user;
 		this.subscriptions = subscriptions;
 	}
@@ -52,7 +52,7 @@ public class Card {
 	public Card(long id, LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
 		this.id = id;
 		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(1);
+		this.expirationDate = creationDate.plusYears(Card.duration);
 		this.user = user;
 		this.subscriptions = subscriptions;
 	}

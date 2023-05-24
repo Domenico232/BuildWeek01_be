@@ -20,17 +20,21 @@ public class User {
 
 	private String name;
 
+	private String surname;
+
 	public User() {
 
 	}
 
-	public User(String name) {
+	public User(String name, String surname) {
 		this.name = name;
+		this.surname = surname;
 	}
 
-	public User(Long id, String name) {
+	public User(Long id, String name, String surname) {
 		this.id = id;
 		this.name = name;
+		this.surname = surname;
 	}
 
 	public Long getId() {
@@ -55,10 +59,17 @@ public class User {
 	}
 
 	public static User randomUser() {
-		String[] names = { "Eren", "Mikasa", "Armin", "Levi", "Erwin", "Hange", "Sasha", "Jean", "Connie", "Historia" };
+		String[] names = {
+				"Eren", "Mikasa", "Armin", "Levi", "Erwin",
+				"Hange", "Sasha", "Jean", "Connie", "Historia" };
+		String[] surnames = {
+				"Yeager", "Ackerman", "Arlelt", "Ackerman", "Smith",
+				"Zoë", "Braus", "Kirschtein", "Springer", "Reiss" };
 		Random rand = new Random();
-		String randomName = names[rand.nextInt(names.length)];
-		return new User(randomName);
+		int index = rand.nextInt(names.length);
+		String randomName = names[index];
+		String randomSurname = surnames[index];
+		return new User(randomName, randomSurname);
 	}
 
 }

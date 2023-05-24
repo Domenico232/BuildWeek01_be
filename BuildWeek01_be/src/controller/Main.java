@@ -2,46 +2,37 @@ package controller;
 
 import models.Trace;
 import models.User;
+import models.VendingMachine;
 import models.Card;
-import models.Pass;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import dao.CardDAO;
 import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
-import enumerates.TypeSubscription;
 
 public class Main {
 
 	public static void main(String[] args) {
+		insertReseller(300);
 		UserDAO userDAO = new UserDAO();
 		CardDAO cardDAO = new CardDAO();
-		ResellerDAO resellerDAO = new ResellerDAO();
-		Reseller reseller = new Reseller("pippo franco");
-		User user = new User("clara");
-        Card card = new Card(LocalDate.now());
-		Subscription subscription = new Subscription(
-			"sub1",
-			"test purpose",
-			200.8,
-			reseller,
-			TypeSubscription.MONTHLY
-		);
+		User user = User.randomUser();
+		Card card = new Card(LocalDate.now());
+		VendingMachine machine = VendingMachine.randomVendingMachine();
+		Subscription subscription = Subscription.randomSubscription();
 		card.addSubscription(subscription);
-		resellerDAO.save(reseller);
 		userDAO.save(user);
 		card.setUser(user);
 		cardDAO.save(card);
 		System.out.println(card);
+		System.out.println(machine);
 	}
 
 	public static void randomSubscriptionTest() {
@@ -102,4 +93,19 @@ public class Main {
 			subscriptionDAO.save(subscription);
 		}
 	}
+
+	public static void insertReseller(int quantity) {
+		ResellerDAO resellerDAO = new ResellerDAO();
+		for (int i = 0; i < quantity; i++) {
+			if (i % 2 == 0) {
+				Reseller reseller = Reseller.randomReseller();
+				resellerDAO.save(reseller);
+			} else {
+				VendingMachine machine = VendingMachine.randomVendingMachine();
+				resellerDAO.save(machine);
+			}
+
+		}
+	}
+
 }
