@@ -9,78 +9,63 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
-import enumerates.ServiceVeicle;
+import enumerates.TypeStatus;
 
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "veicles")
-@NamedQuery(name = "tuttiVeicle", query = "SELECT v FROM Veicle v")
-public class Veicle {
-	
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Veicle {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	protected long id = -1;
+
 	@Enumerated(EnumType.STRING)
-	private ServiceVeicle serviceVeicle;
-	
+	protected TypeStatus typeStatus;
+
 	@OneToMany
-	private Set<Trace> listTrace;
-	
-	@OneToMany
-	private Set<Pass> listTicket;
+	protected Set<Trace> traces;
 
-	public Veicle() {
-		super();
-	}
-
-	public Veicle(ServiceVeicle serviceVeicle, Set<Trace> listTrace, Set<Pass> listTicket) {
-		super();
-		this.serviceVeicle = serviceVeicle;
-		this.listTrace = listTrace;
-		this.listTicket = listTicket;
-	}
-
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public ServiceVeicle getServiceVeicle() {
-		return serviceVeicle;
+	public TypeStatus getTypeStatus() {
+		return this.typeStatus;
 	}
 
-	public void setServiceVeicle(ServiceVeicle serviceVeicle) {
-		this.serviceVeicle = serviceVeicle;
+	public void setTypeStatus(TypeStatus typeStatus) {
+		this.typeStatus = typeStatus;
 	}
 
 	public Set<Trace> getListTrace() {
-		return listTrace;
+		return this.traces;
 	}
 
-	public void setListTrace(Set<Trace> listTrace) {
-		this.listTrace = listTrace;
+	public void setListTrace(Set<Trace> traces) {
+		this.traces = traces;
 	}
 
-	public Set<Pass> getListTicket() {
-		return listTicket;
-	}
-
-	public void setListTicket(Set<Pass> listTicket) {
-		this.listTicket = listTicket;
+	public void addTrace(Trace trace) {
+		if (this.traces == null) {
+			this.traces = Set.of(trace);
+		} else {
+			this.traces.add(trace);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "Veicle [id=" + id + ", serviceVeicle=" + serviceVeicle + ", listTrace="
-				+ listTrace + ", listTicket=" + listTicket + "]";
+		return "Veicle [id=" + id + ", typeStatus=" + typeStatus + ", traces=" + traces + "]";
 	}
-	
-	
+
 }
