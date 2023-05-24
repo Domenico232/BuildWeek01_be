@@ -3,21 +3,15 @@ package controller;
 import models.Trace;
 import models.User;
 import models.Card;
-import models.Pass;
-import models.Reseller;
+
 import models.Subscription;
 import models.Ticket;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import dao.CardDAO;
-import dao.PassDAO;
-import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
-import enumerates.TypeSubscription;
 
 public class Main {
 
