@@ -25,9 +25,14 @@ public class Main {
 		insertCards(10);
 		CardDAO cardDAO = new CardDAO();
 		Card card = cardDAO.getById(1);
+		UserDAO userDAO = new UserDAO();
 		Subscription subscription = Subscription.randomSubscription();
 		card.addSubscription(subscription);
 		cardDAO.update(card);
+		User  user1 = userDAO.getById(2);
+		user1.setCard(card);
+		userDAO.update(user1);
+		
 	}
 
 	public static void randomSubscriptionTest() {

@@ -32,7 +32,7 @@ public class PassDAO {
         }
     }
 
-    public Pass getById(Long id) {
+    public Pass getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         Pass loan = null;
         try {
@@ -57,7 +57,7 @@ public class PassDAO {
         try {
             em.getTransaction().begin();
             TypedQuery<Pass> query = em.createQuery(
-                    "SELECT p FROM pass p", Pass.class);
+                    "SELECT p FROM Pass p", Pass.class);
             loans = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
