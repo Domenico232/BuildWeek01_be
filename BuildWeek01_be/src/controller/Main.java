@@ -17,6 +17,7 @@ import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.UserDAO;
+import enumerates.TypeSubscription;
 
 public class Main {
 

@@ -19,13 +19,16 @@ public class Ticket extends Pass{
 	public Ticket(String name, String description, double price, Boolean endorsed) {
 		super(name, description, price);
 		this.endorsed = endorsed;
-
 	}
 
-	public Ticket(long id, String name, String description, double price, Boolean endorsed) {
-		super(id, name, description, price);
+	public Ticket(long id, String name, String description, double price, Reseller reseller, Boolean endorsed) {
+		super(id, name, description, price, reseller);
 		this.endorsed = endorsed;
-		
+	}
+
+	public Ticket(String name, String description, double price, Reseller reseller, Boolean endorsed) {
+		super(name, description, price, reseller);
+		this.endorsed = endorsed;
 	}
 
 	public Boolean getEndorsed() {

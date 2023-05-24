@@ -3,15 +3,21 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+
+import interfaces.IPassDAO;
 import utils.JpaUtil;
 import models.Pass;
+import models.Ticket;
+import models.User;
 
-public class PassDAO {
-    public void save(Pass pass) {
+public class PassDAO implements IPassDAO {
+	
+	@Override
+    public void save(Pass p) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(pass);
+            em.persist(p);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -26,13 +32,9 @@ public class PassDAO {
         }
     }
 
-    public void saveAll(List<Pass> pass) {
-        for (Pass ticketl : pass) {
-            save(ticketl);
-        }
-    }
-
-    public Pass getById(long id) {
+	
+	@Override
+    public Pass getById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         Pass loan = null;
         try {
@@ -51,6 +53,7 @@ public class PassDAO {
         return loan;
     }
 
+	@Override
     public List<Pass> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         List<Pass> loans = null;
@@ -73,6 +76,7 @@ public class PassDAO {
         return loans;
     }
 
+    @Override
     public void update(Pass pass) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -92,13 +96,16 @@ public class PassDAO {
         }
     }
 
-    public void removeById(Long id) {
+
+    @Override
+    public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
             Pass pass = em.find(Pass.class, id);
             em.remove(pass);
             em.getTransaction().commit();
+            System.out.println("Elemento cancellato dal DB!!");
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
