@@ -28,39 +28,34 @@ public class Card {
 	private long id = -1;
 
 	private LocalDate creationDate;
-	private LocalDate expirationDate;
-	public static int duration;
+	private LocalDate expirationDate = creationDate.plusYears(1);
 
-	@OneToOne
+	@OneToOne(mappedBy = "card")
 	@JoinColumn(name = "user_id")
 	private User user;
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Subscription> subscription;
+	
+	@OneToOne
+	private Subscription subscription;	
+	
+	//@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//private Set<Subscription> subscription;
 
 	public Card() {
 
 	}
 
-	public Card(LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscription) {
+	public Card(LocalDate creationDate, User user, Subscription subscription) {
 		super();
 		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(1);
 		this.user = user;
 		this.subscription = subscription;
 	}
 
-	public Card(long id, LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscription) {
+	public Card(long id, LocalDate creationDate, User user, Subscription subscription) {
 		this.id = id;
 		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(1);
 		this.user = user;
 		this.subscription = subscription;
-	}
-
-	public Card(LocalDate creationDate) {
-		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(Card.duration);
 	}
 
 	public long getId() {
@@ -87,13 +82,6 @@ public class Card {
 		this.expirationDate = expirationDate;
 	}
 
-	public static int getDuration() {
-		return duration;
-	}
-
-	public static void setDuration(int duration) {
-		Card.duration = duration;
-	}
 
 	public User getUser() {
 		return user;
@@ -103,11 +91,11 @@ public class Card {
 		this.user = user;
 	}
 
-	public Set<Subscription> getSubscription() {
+	public Subscription getSubscription() {
 		return subscription;
 	}
 
-	public void setSubscription(Set<Subscription> subscription) {
+	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
 
@@ -126,16 +114,16 @@ public class Card {
 		setExpirationDate(today.plusYears(1));
 	}
 
-	public void addSubscription(Subscription subscription) {
-		if (this.subscription == null) {
-			this.subscription = new HashSet <Subscription>();
-		}
-		this.subscription.add(subscription);
-	}
+//	public void addSubscription(Subscription subscription) {
+//		if (this.subscription == null) {
+//			this.subscription = new HashSet <Subscription>();
+//		}
+//		this.subscription.add(subscription);
+//	}
 
-	public static Card randomCard() {
-		Random random = new Random();
-		LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
-		return new Card(creationDate);
-	}
+//	public static Card randomCard() {
+//		Random random = new Random();
+//		LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
+//		return new Card(creationDate);
+//	}
 }

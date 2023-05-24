@@ -36,15 +36,12 @@ public class User {
 	}
 
 	public User(String name, Card card) {
-
 		this.name = name;
-		this.card = card;
 	}
 
 	public User(Long id, String name, Card card) {
 		this.id = id;
 		this.name = name;
-		this.card = card;
 	}
 
 	public Long getId() {
