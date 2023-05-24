@@ -1,7 +1,4 @@
 package models;
-
-import java.util.Random;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,16 +29,16 @@ public class VeicleStatusTime {
     private TypeStatus typeStatus;
 
     @Column(nullable = false)
-    private int days;
+    private int elapsedDays;
 
     public VeicleStatusTime() {
 
     }
 
-    public VeicleStatusTime(Veicle veicle, int days) {
+    public VeicleStatusTime(Veicle veicle, int elapsedDays) {
         this.veicle = veicle;
         this.typeStatus = veicle.getTypeStatus();
-        this.days = days;
+        this.elapsedDays = elapsedDays;
     }
 
     public long getId() {
@@ -69,11 +66,11 @@ public class VeicleStatusTime {
     }
 
     public int getDays() {
-        return days;
+        return elapsedDays;
     }
 
-    public void setDays(int days) {
-        this.days = days;
+    public void setDays(int elapsedDays) {
+        this.elapsedDays = elapsedDays;
     }
 
     @Override
@@ -82,7 +79,7 @@ public class VeicleStatusTime {
                 "id=" + id +
                 ", veicle=" + veicle +
                 ", typeStatus=" + typeStatus +
-                ", days=" + days +
+                ", elapsedDays=" + elapsedDays +
                 '}';
     }
 
