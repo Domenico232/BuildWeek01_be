@@ -1,0 +1,5 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT USAGE ON SCHEMA public to PUBLIC;
+GRANT CREATE ON SCHEMA public to PUBLIC;
+COMMENT ON SCHEMA public IS 'standard public schema';
