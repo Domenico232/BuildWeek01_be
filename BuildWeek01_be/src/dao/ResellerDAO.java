@@ -4,7 +4,7 @@ import java.util.List;
 
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import interfaces.IResellerDAO;
 import models.Reseller;
@@ -84,7 +84,7 @@ public class ResellerDAO implements IResellerDAO{
 	    public List<Reseller> getAll() {
 	        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
 	        try {
-	            Query q = em.createNamedQuery("tuttiReseller");
+	            TypedQuery<Reseller> q = em.createQuery("SELECT r FROM Reseller r", Reseller.class);
 	            return q.getResultList();
 	        } finally {
 	            em.close();

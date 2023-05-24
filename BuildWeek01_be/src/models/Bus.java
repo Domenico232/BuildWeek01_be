@@ -1,11 +1,13 @@
 package models;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
 import enumerates.TypeStatus;
 
+@Entity
 public class Bus extends Veicle {
 
 	@Column(nullable = false)
@@ -15,9 +17,9 @@ public class Bus extends Veicle {
 
 	}
 
-	public Bus(TypeStatus typeStatus, Set<Trace> listTrace) {
+	public Bus(TypeStatus typeStatus, List<Trace> traces) {
 		this.typeStatus = typeStatus;
-		this.traces = listTrace;
+		this.traces = traces;
 	}
 
 	public static int getSeats() {
@@ -30,7 +32,7 @@ public class Bus extends Veicle {
 
 	@Override
 	public String toString() {
-		return "Bus [id=" + id + ", typeStatus=" + typeStatus + ", traces=" + traces + "]";
+		return "Bus [id=" + id + ", typeStatus=" + typeStatus + ", traces=" + traces + ", seats=" + Bus.seats + "]";
 	}
 
 }

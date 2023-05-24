@@ -1,11 +1,13 @@
 package models;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
 import enumerates.TypeStatus;
 
+@Entity
 public class Tram extends Veicle {
 
 	@Column(nullable = false)
@@ -15,9 +17,9 @@ public class Tram extends Veicle {
 
 	}
 
-	public Tram(TypeStatus typeStatus, Set<Trace> listTrace) {
+	public Tram(TypeStatus typeStatus, List<Trace> traces) {
 		this.typeStatus = typeStatus;
-		this.traces = listTrace;
+		this.traces = traces;
 	}
 
 	public static int getSeats() {

@@ -1,6 +1,6 @@
 package models;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +14,7 @@ import enumerates.TypeStatus;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name = "veicles")
@@ -28,8 +28,8 @@ public abstract class Veicle {
 	@Enumerated(EnumType.STRING)
 	protected TypeStatus typeStatus;
 
-	@OneToMany
-	protected Set<Trace> traces;
+	@ManyToMany
+	protected List<Trace> traces;
 
 	public long getId() {
 		return id;
@@ -47,17 +47,17 @@ public abstract class Veicle {
 		this.typeStatus = typeStatus;
 	}
 
-	public Set<Trace> getListTrace() {
+	public List<Trace> getListTrace() {
 		return this.traces;
 	}
 
-	public void setListTrace(Set<Trace> traces) {
+	public void setListTrace(List<Trace> traces) {
 		this.traces = traces;
 	}
 
 	public void addTrace(Trace trace) {
 		if (this.traces == null) {
-			this.traces = Set.of(trace);
+			this.traces = List.of(trace);
 		} else {
 			this.traces.add(trace);
 		}
