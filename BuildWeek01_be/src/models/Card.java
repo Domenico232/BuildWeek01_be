@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,7 +35,7 @@ public class Card {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Subscription> subscriptions;
 
 	public Card() {
@@ -105,7 +104,7 @@ public class Card {
 		this.user = user;
 	}
 
-	public Set<Subscription> getSubscription() {
+	public Set<Subscription> getSubscriptions() {
 		return subscriptions;
 	}
 
@@ -139,6 +138,10 @@ public class Card {
 		UserDAO userDAO = new UserDAO();
 		Random random = new Random();
 		List<User> usersWithoutCard = userDAO.getAllWithoutCard();
+		if(usersWithoutCard.isEmpty()) {
+			System.out.println("No users without card");
+			return null;
+		}
 		User randomUser = usersWithoutCard.get(random.nextInt(usersWithoutCard.size()));
 		LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
 		return new Card(creationDate, randomUser);
