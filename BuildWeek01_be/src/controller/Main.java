@@ -6,6 +6,7 @@ import models.User;
 import models.VendingMachine;
 import models.Bus;
 import models.Card;
+import models.Pass;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
@@ -32,27 +33,45 @@ public class Main {
 		Subscription subscription = Subscription.randomSubscription();
 		
 		Reseller r1 = new Reseller("FRANCO");
+		Reseller r2 = new Reseller("GIANNI");
 		ResellerDAO rs = new ResellerDAO();
 		rs.save(r1);
+		rs.save(r2);
 		
+		User u1 = new User("Sergio", "Mattarella");
+		userDAO.save(u1);
 		Subscription subscription2 = new Subscription ("s1","descrizione1", 200.00, r1, TypeSubscription.MONTHLY  );
+		Subscription subscription3 = new Subscription ("s2","descri2", 200.00, r2, TypeSubscription.MONTHLY  );
 		PassDAO  ps = new PassDAO();
-		ps.save(subscription2);
+		ps.save(subscription3);
 		System.out.println("SUB " + subscription2);
+		System.out.println("__________________________");
+		Card c = new Card(LocalDate.of(2023, 3, 1), u1);
+		cardDAO.save(c);
+				
+		System.out.println("__________________________");
+
+		List<Pass> prova = ps.listaTotPass(2, LocalDate.of(2023, 5, 23),  LocalDate.of(2023, 5, 24));
+		prova.forEach(e -> System.out.println(e));
 		
+		System.out.println("__________________________");
 		
-		card.addSubscription(subscription2);
+		//cardDAO.save(card);
+		c.addSubscription(subscription2);
+		ps.save(subscription2);
 		userDAO.save(user);
-		card.setUser(user);
-		cardDAO.save(card);
+		
+		subscription2.setCard(c);
+		cardDAO.verificaValidita(1, 2);
+		
+		
 		insertTraces(1);
 		Tram tram = new Tram();
 		tram.setTypeStatus(TypeStatus.SERVIZIO);
 		Bus bus = new Bus();
 		bus.setTypeStatus(TypeStatus.MANUTENZIONE);
 		
-		
-		cardDAO.verificaValidita(1);
+
 		
 	}
 

@@ -1,11 +1,15 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import interfaces.ICardDAO;
 import models.Card;
+import models.Subscription;
 import utils.JpaUtil;
 
 public class CardDAO implements ICardDAO {
@@ -111,13 +115,25 @@ public class CardDAO implements ICardDAO {
     }
     
     
-    public List<Card> verificaValidita (long id) {
+    public void verificaValidita (long id, long idsub) {
     	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-    	List<Card> query = null;
+    	Card card = null;
+    	LocalDate today = LocalDate.now();
     	try {
+    		em.getTransaction().begin();
     		TypedQuery<Card> query1 = em.createQuery("SELECT c FROM Card c WHERE c.id = :id  ", Card.class);
-              query1.setParameter("id", id);
-            	query = query1.getResultList();	
+            query1.setParameter("id", id);
+            card = query1.getSingleResult();
+            Set <Subscription> setSub = card.getSubscriptions();
+            System.out.println(setSub);
+            Subscription s = (Subscription) setSub.stream().filter(e -> e.getId() == idsub);
+            LocalDate data = s.getDataScadenza();
+            if (data.isBefore(today)) {
+            	System.out.println("Abbonamento non attivo su questa tessera, RICARICARE!!");
+            } else {
+            	System.out.println("Abbonamento attivo su questa tessera");
+            }
+            em.getTransaction().commit();
          } catch (Exception e) {
              em.getTransaction().rollback();
              System.out.println(
@@ -128,8 +144,8 @@ public class CardDAO implements ICardDAO {
          } finally {
              em.close();
          }
-    	System.out.println(query);
-		return query;
+    	System.out.println(card);
+		
     }
 
 }

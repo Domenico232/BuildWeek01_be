@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.internal.build.AllowSysOut;
+
 import interfaces.IPassDAO;
 import utils.JpaUtil;
 import models.Pass;
@@ -125,8 +127,11 @@ public class PassDAO implements IPassDAO {
             query.setParameter("id", id);
             query.setParameter("startDate", inizio);
             query.setParameter("endDate", fine);
-            List<Pass> we = query.getResultList();
-            return we;
+            List<Pass> listPass = query.getResultList();
+            if (listPass.isEmpty()) {
+            	System.out.println("Non ci sono biglietti venduti per questa ricerca!");
+            }
+            return listPass;
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(

@@ -29,8 +29,6 @@ public class Card {
 
 	@OneToOne
 	private User user;
-	
-	   
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Subscription> subscriptions;
@@ -39,20 +37,11 @@ public class Card {
 
 	}
 
-	public Card(LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
+	public Card(LocalDate creationDate, User user) {
 		super();
 		this.creationDate = creationDate;
 		this.expirationDate = creationDate.plusYears(Card.duration);
-		this.user = user;
-		this.subscriptions = subscriptions;
-	}
-
-	public Card(long id, LocalDate creationDate, LocalDate expirationDate, User user, Set<Subscription> subscriptions) {
-		this.id = id;
-		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(Card.duration);
-		this.user = user;
-		this.subscriptions = subscriptions;
+		this.user = user;	
 	}
 
 	public Card(LocalDate creationDate) {
@@ -100,13 +89,16 @@ public class Card {
 		this.user = user;
 	}
 
-	public Set<Subscription> getSubscription() {
+	
+	
+	public Set<Subscription> getSubscriptions() {
 		return subscriptions;
 	}
 
 	public void setSubscription(Set<Subscription> subscriptions) {
 		this.subscriptions = subscriptions;
 	}
+
 
 	@Override
 	public String toString() {
