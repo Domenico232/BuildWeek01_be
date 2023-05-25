@@ -126,6 +126,7 @@ public class CardDAO implements ICardDAO {
             card = query1.getSingleResult();
             Set <Subscription> setSub = card.getSubscriptions();
             Subscription s = setSub.stream().filter(e -> e.getId() == idsub).findFirst().get();
+            System.out.println(s);
             LocalDate data = s.getDataScadenza();            
             if (data.isBefore(today)) {
             	System.out.println("Abbonamento non attivo su questa tessera, RICARICARE!!");

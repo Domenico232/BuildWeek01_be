@@ -2,6 +2,7 @@ package models;
 
 import java.util.Random;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -79,6 +80,7 @@ public class Subscription extends Pass {
     }
 
     public static Subscription randomSubscription() {
+    	LocalDate randomDate = getRandomDate();
         ResellerDAO resellerDAO = new ResellerDAO();
         List<Reseller> resellers = resellerDAO.getAll();
         if (resellers.isEmpty()) {
@@ -107,8 +109,21 @@ public class Subscription extends Pass {
         subscription
                 .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         subscription.setReseller(reseller);
+        subscription.setDataScadenza(randomDate);
         subscription.setCard(card);
         return subscription;
     }
 
+    public static LocalDate getRandomDate() {
+        LocalDate startDate = LocalDate.of(1900, 1, 1);  // Data di inizio
+        LocalDate endDate = LocalDate.now();  // Data di fine (data corrente)
+
+        long randomDays = getRandomNumber(0, ChronoUnit.DAYS.between(startDate, endDate));
+        return startDate.plusDays(randomDays);
+    }
+
+    public static long getRandomNumber(long min, long max) {
+        Random random = new Random();
+        return min + random.nextLong() % (max - min + 1);
+    }
 }

@@ -29,6 +29,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		run();
+		CardDAO cardDAO = new CardDAO();
+		PassDAO passDAO = new PassDAO();
+		
+		cardDAO.verificaValidita (1,cardDAO.getById(1).getSubscriptions().stream().findFirst().get().getId());
 	}
 
 	public static void run() {
@@ -126,14 +130,17 @@ public class Main {
 			System.out.println("All veicles are out of service");
 		}
 		Random rand = new Random();
+		
 		for (int i = 0; i < tickets.size(); i += 3) {
-			Ticket ticket = (Ticket) tickets.get(i);
+			
+			Ticket ticket = (Ticket)tickets.get(i);
 			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);
+			
 			veicle.addTicket(ticket);
 			passDAO.update(ticket);
-			veicleDAO.update(veicle);
 		}
 	}
 
