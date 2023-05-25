@@ -13,7 +13,7 @@ import models.Reseller;
 import models.Subscription;
 import models.Ticket;
 
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
@@ -34,16 +34,20 @@ public class Main {
 		VeicleDAO veicleDAO = new VeicleDAO();
 		
 		cardDAO.verificaValidita (1,cardDAO.getById(1).getSubscriptions().stream().findFirst().get().getId());
-		System.out.println(veicleDAO.getNumberOfTicketsByVeicleId(2));
+		
+		System.out.println("Numero di biglietti vidimati dal veicolo"+ " "+veicleDAO.getNumberOfTicketsByVeicleId(2));
+		
+		List<Pass> prova = passDAO.listaTotPass(2, LocalDate.of(2000, 5, 23), LocalDate.of(2023, 5, 24));
+		prova.forEach(e -> System.out.println(e));
 	}
 
 	public static void run() {
 		insertUsers(150);
 		insertCards(100);
 		insertResellers(50);
-		insertSubscriptions(500);
-		insertTraces(500);
-		insertTickets(100);
+		insertSubscriptions(100);
+		insertTraces(100);
+		insertTickets(150);
 		insertVeicles(5);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();

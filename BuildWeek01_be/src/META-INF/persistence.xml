@@ -8,7 +8,7 @@
             <property name="javax.persistence.jdbc.password" value="admin" />
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>  
 	</persistence-unit>
 </persistence>
