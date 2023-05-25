@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import dao.TraceDAO;
 import enumerates.TypeStatus;
 
-import java.lang.UnsupportedOperationException;
-
 @Entity
 public class Bus extends Veicle {
 
@@ -49,9 +47,11 @@ public class Bus extends Veicle {
 		Bus bus = new Bus(randType);
 		TraceDAO traceDAO = new TraceDAO();
 		List<Trace> traces = traceDAO.getAll();
-
-		int numberOfTraces = rand.nextInt(20) + 1;
-
+		if (traces.isEmpty()) {
+			System.out.println("No traces");
+			return null;
+		}
+		int numberOfTraces = rand.nextInt(30) + 10;
 		for (int i = 0; i < numberOfTraces; i++) {
 			int index = rand.nextInt(traces.size());
 
