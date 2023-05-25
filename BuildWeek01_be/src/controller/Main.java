@@ -13,7 +13,7 @@ import models.Reseller;
 import models.Subscription;
 import models.Ticket;
 
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Random;
 
@@ -24,8 +24,6 @@ import dao.TraceDAO;
 import dao.TraceTraveledDAO;
 import dao.UserDAO;
 import dao.VeicleDAO;
-import enumerates.TypeStatus;
-import enumerates.TypeSubscription;
 
 public class Main {
 
@@ -120,7 +118,6 @@ public class Main {
 		PassDAO passDAO = new PassDAO();
 		VeicleDAO veicleDAO = new VeicleDAO();
 		List<Pass> tickets = passDAO.getTicketsNotEndorsed();
-		if (tickets == null) {
 		if (tickets == null) {
 			System.out.println("All tickets are not endorsed");
 		}
