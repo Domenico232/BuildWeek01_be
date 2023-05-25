@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import dao.ResellerDAO;
 
@@ -13,7 +11,6 @@ import dao.ResellerDAO;
 public class Ticket extends Pass{
 	
 	private Boolean endorsed = false;
-	
 	
 	
     public Ticket() {
@@ -56,6 +53,10 @@ public class Ticket extends Pass{
 		Random random = new Random();
 		ResellerDAO resellerDAO = new ResellerDAO();
 		List<Reseller> resellers = resellerDAO.getAll();
+		if(resellers.isEmpty()) {
+			System.out.println("No resellers");
+			return null;
+		}
 		Reseller randomReseller = resellers.get(random.nextInt(resellers.size()));
 		String[] names = { "Ticket A", "Ticket B", "Ticket C" };
 		String[] descriptions = { "Description A", "Description B", "Description C" };
@@ -69,6 +70,7 @@ public class Ticket extends Pass{
 		ticket.setPrice(price);
 		ticket.setEndorsed(false);
 		ticket.setReseller(randomReseller);
+	
 		return ticket;
 	}
 
