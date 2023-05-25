@@ -31,17 +31,19 @@ public class Main {
 		run();
 		CardDAO cardDAO = new CardDAO();
 		PassDAO passDAO = new PassDAO();
+		VeicleDAO veicleDAO = new VeicleDAO();
 		
 		cardDAO.verificaValidita (1,cardDAO.getById(1).getSubscriptions().stream().findFirst().get().getId());
+		System.out.println(veicleDAO.getNumberOfTicketsByVeicleId(2));
 	}
 
 	public static void run() {
-		insertUsers(15);
-		insertCards(10);
-		insertResellers(5);
-		insertSubscriptions(50);
-		insertTraces(50);
-		insertTickets(10);
+		insertUsers(150);
+		insertCards(100);
+		insertResellers(50);
+		insertSubscriptions(500);
+		insertTraces(500);
+		insertTickets(100);
 		insertVeicles(5);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();
@@ -131,7 +133,7 @@ public class Main {
 		}
 		Random rand = new Random();
 		
-		for (int i = 0; i < tickets.size(); i += 3) {
+		for (int i = 0; i < tickets.size(); i += 2) {
 			
 			Ticket ticket = (Ticket)tickets.get(i);
 			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
@@ -141,6 +143,7 @@ public class Main {
 			
 			veicle.addTicket(ticket);
 			passDAO.update(ticket);
+			
 		}
 	}
 

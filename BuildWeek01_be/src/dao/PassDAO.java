@@ -1,8 +1,11 @@
 package dao;
 
 import java.time.LocalDate;
-import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
+
 import javax.persistence.TypedQuery;
 
 import interfaces.IPassDAO;
@@ -10,9 +13,12 @@ import utils.JpaUtil;
 import models.Pass;
 
 public class PassDAO implements IPassDAO {
+	@PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void save(Pass p) {
+    	
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
@@ -154,5 +160,8 @@ public class PassDAO implements IPassDAO {
             em.close();
         }
     }
+    
+    }
+    
 
-}
+
