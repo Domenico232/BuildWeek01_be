@@ -1,6 +1,9 @@
 package models;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,6 +31,10 @@ public abstract class Veicle {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	protected List<Trace> traces;
+	
+	@OneToMany
+	protected Set<Ticket> tickets;
+	
 
 	public long getId() {
 		return id;
@@ -60,6 +67,15 @@ public abstract class Veicle {
 			this.traces.add(trace);
 		}
 	}
+	public void addTicket(Ticket ticket) {
+		if (this.tickets == null) {
+			this.tickets = new HashSet<Ticket>();
+		}
+		ticket.setEndorsed(true);
+		this.tickets.add(ticket);
+
+	}
+	
 
 	@Override
 	public String toString() {

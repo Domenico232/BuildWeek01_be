@@ -29,6 +29,9 @@ public abstract class Pass {
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Reseller reseller;
+    
+    @OneToOne
+	private Veicle veicle;
 
     public Pass() {
 

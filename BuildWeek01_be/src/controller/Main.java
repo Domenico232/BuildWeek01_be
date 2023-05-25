@@ -10,10 +10,13 @@ import models.Bus;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
+import models.Ticket;
+
 import java.util.List;
 import java.util.Random;
 
 import dao.CardDAO;
+import dao.PassDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
 import dao.TraceTraveledDAO;
@@ -30,6 +33,8 @@ public class Main {
 		insertBuses(5);
 		insertTimeTraveled(100);
 		insertReseller(20);
+		insertTickets(300);
+		
 		// System.out.println(Tram.randomTram());
 	}
 
@@ -66,6 +71,15 @@ public class Main {
 			card.addSubscription(subscription);
 		}
 	}
+	
+	public static void insertTickets(int quantity) {
+		PassDAO passDAO = new PassDAO();
+		for (int i = 0; i < quantity; i++) {
+			Ticket ticket = Ticket.randomTicket();
+			passDAO.save(ticket);
+			
+		}
+	}
 
 	public static void insertReseller(int quantity) {
 		ResellerDAO resellerDAO = new ResellerDAO();
@@ -88,6 +102,10 @@ public class Main {
 			busDAO.save(bus);
 		}
 	}
+	public static void insertTicketsinBuses(){
+		
+	}
+	
 
 	public static void insertTimeTraveled(int quantity) {
 		TraceTraveledDAO timeTraveledDAO = new TraceTraveledDAO();
