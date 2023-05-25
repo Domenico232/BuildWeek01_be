@@ -1,14 +1,11 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import interfaces.IVeicleDAO;
-import models.Trace;
 import models.Veicle;
 import utils.JpaUtil;
 
@@ -83,14 +80,28 @@ public class VeicleDAO implements IVeicleDAO {
         try {
             TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v", Veicle.class);
             return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Errore su salvataggio!!");
+            System.out.println(e.getMessage());
+            return null;
         } finally {
             em.close();
         }
     }
-  
-   
-        
 
-    
+    public List<Veicle> getVeiclesInService() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVIZIO'",
+                    Veicle.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Errore: impossibile recuperare i veicoli in servizio");
+            System.out.println(e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 
 }
