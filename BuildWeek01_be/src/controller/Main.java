@@ -58,7 +58,7 @@ public class Main {
 		System.out.println("__________________________");
 
 		List<Pass> prova = ps.listaTotPass(2, LocalDate.of(2023, 5, 23), LocalDate.of(2023, 5, 24));
-		prova.forEach(e -> System.out.println(e));
+		prova.forEach(e -> System.out.println("heree"+e));
 
 		System.out.println("__________________________");
 
