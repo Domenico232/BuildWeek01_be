@@ -55,24 +55,6 @@ public class Subscription extends Pass {
     public void setTypeSubscription(TypeSubscription typeSubscription) {
         this.typeSubscription = typeSubscription;
     }
-    
-    
-
-    public LocalDate getDataScadenza() {
-        return dataScadenza;
-    }
-
-    public void setDataScadenza(LocalDate dataScadenza) {
-        this.dataScadenza = dataScadenza;
-    }
-
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
 
     public LocalDate getDataScadenza() {
 		return dataScadenza;

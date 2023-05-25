@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.internal.build.AllowSysOut;
-
 import interfaces.IPassDAO;
 import utils.JpaUtil;
 import models.Pass;
