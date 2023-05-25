@@ -46,9 +46,11 @@ public class Tram extends Veicle {
 		Tram tram = new Tram(randType);
 		TraceDAO traceDAO = new TraceDAO();
 		List<Trace> traces = traceDAO.getAll();
-
-		int numberOfTraces = rand.nextInt(2) + 1;
-
+        if(traces.isEmpty()) {
+			System.out.println("No traces");
+			return null;
+		}
+		int numberOfTraces = rand.nextInt(20) + 5;
 		for (int i = 0; i < numberOfTraces; i++) {
 			int index = rand.nextInt(traces.size());
 
