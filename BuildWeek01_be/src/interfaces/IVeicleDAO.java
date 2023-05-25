@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.List;
 
-import models.Trace;
 import models.Veicle;
 
 
