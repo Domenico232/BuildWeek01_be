@@ -30,8 +30,8 @@ public abstract class Pass {
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Reseller reseller;
     
-    @OneToOne
-	private Veicle veicle;
+    @OneToOne(cascade = CascadeType.REMOVE)
+	protected Veicle veicle;
 
     public Pass() {
 
@@ -107,6 +107,14 @@ public abstract class Pass {
 	public void setEmissionDate(LocalDate emissionDate) {
 		this.emissionDate = emissionDate;
 	}
+
+    public Veicle getVeicle() {
+        return veicle;
+    }
+
+    public void setVeicle(Veicle veicle) {
+        this.veicle = veicle;
+    }
 
 	@Override
     public String toString() {
