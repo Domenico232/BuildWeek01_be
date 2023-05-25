@@ -12,8 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import java.util.List;
-
-import dao.TraceTraveledDAO;
+import dao.VeicleDAO;
 
 @Entity
 @Table(name = "trace_traveled")
@@ -85,26 +84,44 @@ public class TraceTraveled {
         long millis = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
         this.traveledTime = new Time(millis);
     }
-    
-    
 
     public void setTravelTime(Time traveledTime) {
         this.traveledTime = traveledTime;
     }
 
     public String toString() {
-        return "VeicleTrace{" +
+        return "TraceTraveled{" +
                 "id=" + id +
-                ", veicle=" + veicle +
-                ", trace=" + trace +
-                ", traveledTime=" + traveledTime +
+                ", veicle=" + veicle.getId() +
+                ", trace=" + trace.getId() +
+                ", effectiveTraveledTime=" + traveledTime +
                 '}';
     }
 
     public static TraceTraveled randomTraceTraveled() {
-        TraceTraveledDAO dao = new TraceTraveledDAO();
-        List<Trace> traces = dao.getByVeicleId(1);
-        System.out.println(traces); 
-        return null;
+        Random rand = new Random();
+        VeicleDAO veicleDAO = new VeicleDAO();
+        List<Veicle> veicles = veicleDAO.getAll();
+        if (veicles == null) {
+            System.out.println("Veicles not found");
+            return null;
+        }
+        Veicle randomVeicle = veicles.get(rand.nextInt(veicles.size()));
+        List<Trace> traces = randomVeicle.getListTraces();
+        if (traces.isEmpty()) {
+            System.out.println("Traces not found");
+            return null;
+        }
+        Trace randomTrace = traces.get(rand.nextInt(traces.size()));
+        Time effectiveTime = randomTrace.getAverageTimeTravel();
+        // Genera un numero casuale tra -15 e 15
+        int randomOffset = rand.nextInt(31) - 15;
+        // Aggiunge o sottrae il numero casuale dal tempo di viaggio medio della traccia
+        effectiveTime = new Time(effectiveTime.getTime() + (randomOffset * 60 * 1000));
+        TraceTraveled traceTraveled = new TraceTraveled();
+        traceTraveled.setVeicle(randomVeicle);
+        traceTraveled.setTrace(randomTrace);
+        traceTraveled.setTravelTime(effectiveTime);
+        return traceTraveled;
     }
 }

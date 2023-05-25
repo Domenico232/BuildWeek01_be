@@ -5,9 +5,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.Query;
-
-import models.Trace;
 import models.TraceTraveled;
 import utils.JpaUtil;
 
@@ -93,31 +90,5 @@ public class TraceTraveledDAO {
         }
         return traceTraveledList;
     }
-
-    public List<Trace> getByVeicleId(long veicleId) {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        List<Trace> traces = null;
-        try {
-            em.getTransaction().begin();
-            Query query = em.createNativeQuery(
-                    "SELECT * " +
-                    "FROM traces " +
-                    "WHERE id IN (SELECT veicles_traces.trace_id FROM veicles_traces WHERE veicle_id = :veicleId)",
-                    "TraceTraveledMapping");
-            query.setParameter("veicleId", veicleId);
-            traces = query.getResultList();
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Error while getting TraceTraveled for Veicle with id %d: %s", veicleId, e.getMessage()));
-            System.out.println(e.getMessage());
-        } finally {
-            em.close();
-        }
-        return traces;
-    }
-    
 
 }

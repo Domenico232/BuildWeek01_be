@@ -1,13 +1,18 @@
 package models;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Entity;
 
+import dao.ResellerDAO;
+
 @Entity
 public class Ticket extends Pass{
+	
 	private Boolean endorsed = false;
-
+	
+	
     public Ticket() {
 
 	}
@@ -46,6 +51,13 @@ public class Ticket extends Pass{
 
 	public static Ticket randomTicket() {
 		Random random = new Random();
+		ResellerDAO resellerDAO = new ResellerDAO();
+		List<Reseller> resellers = resellerDAO.getAll();
+		if(resellers.isEmpty()) {
+			System.out.println("No resellers");
+			return null;
+		}
+		Reseller randomReseller = resellers.get(random.nextInt(resellers.size()));
 		String[] names = { "Ticket A", "Ticket B", "Ticket C" };
 		String[] descriptions = { "Description A", "Description B", "Description C" };
 		double[] prices = { 10.0, 20.0, 30.0 };
@@ -57,6 +69,8 @@ public class Ticket extends Pass{
 		ticket.setDescription(description);
 		ticket.setPrice(price);
 		ticket.setEndorsed(false);
+		ticket.setReseller(randomReseller);
+	
 		return ticket;
 	}
 

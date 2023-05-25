@@ -95,7 +95,6 @@ public class Trace {
         }
         long millis = random.nextInt(3600000);
         Time averageTimeTravel = new Time(millis);
-        
         return new Trace(departure, arrival, averageTimeTravel );
     }
 }

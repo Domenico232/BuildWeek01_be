@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 
+import dao.CardDAO;
 import dao.ResellerDAO;
 import enumerates.TypeSubscription;
 
@@ -57,10 +58,21 @@ public class Subscription extends Pass {
     
     
 
-//    @Override
-//    public String toString() {
-//        return super.toString() + "Subscription [typeSubscription=" + typeSubscription + "]";
-//    }
+    public LocalDate getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public void setDataScadenza(LocalDate dataScadenza) {
+        this.dataScadenza = dataScadenza;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
 
     public LocalDate getDataScadenza() {
 		return dataScadenza;
@@ -87,8 +99,14 @@ public class Subscription extends Pass {
         ResellerDAO resellerDAO = new ResellerDAO();
 		List<Reseller> resellers = resellerDAO.getAll();
         if(resellers.isEmpty()) {
-            resellerDAO.save(Reseller.randomReseller());
-            resellers = resellerDAO.getAll();
+            System.out.println("No resellers");
+            return null;
+        }
+        CardDAO cardDAO = new CardDAO();
+        List<Card> cards = cardDAO.getAll();
+        if(cards.isEmpty()) {
+            System.out.println("No cards");
+            return null;
         }
 		Random random = new Random();
         String[] names = { "Subscription A", "Subscription B", "Subscription C" };
@@ -97,14 +115,15 @@ public class Subscription extends Pass {
         String name = names[random.nextInt(names.length)];
         String description = descriptions[random.nextInt(descriptions.length)];
         double price = prices[random.nextInt(prices.length)];
+        Card card = cards.get(random.nextInt(cards.size()));
         Reseller reseller = resellers.get(random.nextInt(resellers.size()));
         Subscription subscription = new Subscription();
         subscription.setName(name);
         subscription.setDescription(description);
         subscription.setPrice(price);
         subscription.setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
-      
         subscription.setReseller(reseller);
+        subscription.setCard(card);
         return subscription;
     }
 

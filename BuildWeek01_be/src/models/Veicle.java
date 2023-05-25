@@ -1,9 +1,14 @@
 package models;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
@@ -13,6 +18,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
 @Entity
 @Table(name = "veicles")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -20,16 +26,16 @@ public abstract class Veicle {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected long id = -1;
+	protected long id;
 
 	@Enumerated(EnumType.STRING)
 	protected TypeStatus typeStatus;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	protected List<Trace> traces;
 
-	/* @OneToMany(mappedBy = "veicle")
-    private List<VeicleTrace> veicleTraces; */
+	@OneToMany(mappedBy = "veicle", fetch = FetchType.EAGER)
+    private Set<Ticket> tickets;
 
 	public long getId() {
 		return id;
@@ -47,11 +53,11 @@ public abstract class Veicle {
 		this.typeStatus = typeStatus;
 	}
 
-	public List<Trace> getListTrace() {
+	public List<Trace> getListTraces() {
 		return this.traces;
 	}
 
-	public void setListTrace(List<Trace> traces) {
+	public void setListTraces(List<Trace> traces) {
 		this.traces = traces;
 	}
 
@@ -61,6 +67,15 @@ public abstract class Veicle {
 		} else {
 			this.traces.add(trace);
 		}
+	}
+
+	public void addTicket(Ticket ticket) {
+		if (this.tickets == null) {
+			this.tickets = new HashSet<Ticket>();
+		}
+		ticket.setEndorsed(true);
+		this.tickets.add(ticket);
+
 	}
 
 	@Override
