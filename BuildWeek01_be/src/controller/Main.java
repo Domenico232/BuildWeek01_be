@@ -4,28 +4,32 @@ import models.Trace;
 import models.TraceTraveled;
 import models.Tram;
 import models.User;
+import models.Veicle;
 import models.VendingMachine;
 import models.Bus;
 import models.Card;
 import models.Reseller;
 import models.Subscription;
 import java.util.List;
+import java.util.Random;
+
 import dao.CardDAO;
 import dao.ResellerDAO;
 import dao.TraceDAO;
+import dao.TraceTraveledDAO;
 import dao.UserDAO;
 import dao.VeicleDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
+
 		insertUsers(100);
 		insertCards(15);
 		insertTraces(50);
 		insertBuses(5);
-		TraceTraveled.randomTraceTraveled();
-
-		// insertReseller(20);
+		insertTimeTraveled(100);
+		insertReseller(20);
 		// System.out.println(Tram.randomTram());
 	}
 
@@ -85,4 +89,16 @@ public class Main {
 		}
 	}
 
+	public static void insertTimeTraveled(int quantity) {
+		TraceTraveledDAO timeTraveledDAO = new TraceTraveledDAO();
+		VeicleDAO veicleDAO = new VeicleDAO();
+		List<Veicle> veicles = veicleDAO.getAll();
+		System.out.println(veicles);
+		Random rand = new Random();
+		for (int i = 0; i < quantity; i++) {
+			TraceTraveled traceTraveled = TraceTraveled.randomTraceTraveled(rand.nextInt(veicles.size())+1);
+			timeTraveledDAO.save(traceTraveled);
+		}
+
+	}
 }

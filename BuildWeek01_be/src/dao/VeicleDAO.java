@@ -1,11 +1,14 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import interfaces.IVeicleDAO;
+import models.Trace;
 import models.Veicle;
 import utils.JpaUtil;
 
@@ -84,5 +87,10 @@ public class VeicleDAO implements IVeicleDAO {
             em.close();
         }
     }
+  
+   
+        
+
+    
 
 }

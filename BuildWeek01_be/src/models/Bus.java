@@ -50,7 +50,7 @@ public class Bus extends Veicle {
 		TraceDAO traceDAO = new TraceDAO();
 		List<Trace> traces = traceDAO.getAll();
 
-		int numberOfTraces = rand.nextInt(20) + 0;
+		int numberOfTraces = rand.nextInt(20) + 1;
 
 		for (int i = 0; i < numberOfTraces; i++) {
 			int index = rand.nextInt(traces.size());
