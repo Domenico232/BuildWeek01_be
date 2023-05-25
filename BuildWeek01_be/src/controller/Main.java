@@ -13,6 +13,7 @@ import models.Ticket;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import dao.CardDAO;
 import dao.PassDAO;
@@ -57,12 +58,14 @@ public class Main {
 		System.out.println("__________________________");
 		
 		//cardDAO.save(card);
-		c.addSubscription(subscription2);
 		ps.save(subscription2);
+		c.addSubscription(subscription2);
 		userDAO.save(user);
+		cardDAO.update(c);
 		
-		subscription2.setCard(c);
+		System.out.println("provaaaaaaaaaaaa__________________________");
 		cardDAO.verificaValidita(1, 2);
+		System.out.println("__________________________");
 		
 		
 		insertTraces(1);
