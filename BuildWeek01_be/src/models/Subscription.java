@@ -17,11 +17,11 @@ import enumerates.TypeSubscription;
 public class Subscription extends Pass {
     @Enumerated(EnumType.STRING)
     private TypeSubscription typeSubscription;
-   private LocalDate dataScadenza;
-   
-   @OneToOne
-   private Card card;
-   
+    private LocalDate dataScadenza;
+
+    @OneToOne
+    private Card card;
+
     public Subscription() {
         super();
     }
@@ -29,22 +29,23 @@ public class Subscription extends Pass {
     public Subscription(String name, String description, double price, Reseller reseller,
             TypeSubscription typeSubscription) {
         super(name, description, price, reseller);
-        if( typeSubscription == TypeSubscription.MONTHLY) {
-        	this.dataScadenza =super.getEmissionDate().plusMonths(1); 
-        	this.typeSubscription = typeSubscription;
-           }else if (typeSubscription == TypeSubscription.WEEKLY) {
-        	  this.dataScadenza =super.getEmissionDate().plusWeeks(1); 	 
-        	  this.typeSubscription = typeSubscription;
-           }
-        
-    }
-    
-    public Subscription(long id, String name, String description, double price, Reseller reseller, TypeSubscription typeSubscription) {
-		super(id, name, description, price, reseller);
-        this.typeSubscription = typeSubscription;
-	}
+        if (typeSubscription == TypeSubscription.MONTHLY) {
+            this.dataScadenza = super.getEmissionDate().plusMonths(1);
+            this.typeSubscription = typeSubscription;
+        } else if (typeSubscription == TypeSubscription.WEEKLY) {
+            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
+            this.typeSubscription = typeSubscription;
+        }
 
-	public long getId() {
+    }
+
+    public Subscription(long id, String name, String description, double price, Reseller reseller,
+            TypeSubscription typeSubscription) {
+        super(id, name, description, price, reseller);
+        this.typeSubscription = typeSubscription;
+    }
+
+    public long getId() {
         return super.getId();
     }
 
@@ -55,8 +56,6 @@ public class Subscription extends Pass {
     public void setTypeSubscription(TypeSubscription typeSubscription) {
         this.typeSubscription = typeSubscription;
     }
-    
-    
 
     public LocalDate getDataScadenza() {
         return dataScadenza;
@@ -74,41 +73,25 @@ public class Subscription extends Pass {
         this.card = card;
     }
 
-    public LocalDate getDataScadenza() {
-		return dataScadenza;
-	}
-
-	public void setDataScadenza(LocalDate dataScadenza) {
-		this.dataScadenza = dataScadenza;
-	}
-
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
-	}
-
-	@Override
+    @Override
     public String toString() {
-    	return "Subscription [typeSubscription=" + typeSubscription + ", dataScadenza=" + dataScadenza + "]";
+        return "Subscription [typeSubscription=" + typeSubscription + ", dataScadenza=" + dataScadenza + "]";
     }
-    
+
     public static Subscription randomSubscription() {
         ResellerDAO resellerDAO = new ResellerDAO();
-		List<Reseller> resellers = resellerDAO.getAll();
-        if(resellers.isEmpty()) {
+        List<Reseller> resellers = resellerDAO.getAll();
+        if (resellers.isEmpty()) {
             System.out.println("No resellers");
             return null;
         }
         CardDAO cardDAO = new CardDAO();
         List<Card> cards = cardDAO.getAll();
-        if(cards.isEmpty()) {
+        if (cards.isEmpty()) {
             System.out.println("No cards");
             return null;
         }
-		Random random = new Random();
+        Random random = new Random();
         String[] names = { "Subscription A", "Subscription B", "Subscription C" };
         String[] descriptions = { "Fiera A", "Metro B", "Stazione C" };
         double[] prices = { 10.0, 20.0, 30.0 };
@@ -121,11 +104,11 @@ public class Subscription extends Pass {
         subscription.setName(name);
         subscription.setDescription(description);
         subscription.setPrice(price);
-        subscription.setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
+        subscription
+                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         subscription.setReseller(reseller);
         subscription.setCard(card);
         return subscription;
     }
-
 
 }
