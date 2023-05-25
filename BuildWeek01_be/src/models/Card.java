@@ -2,18 +2,23 @@ package models;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import dao.UserDAO;
 
 @Entity
 @Table(name = "cards")
@@ -25,9 +30,10 @@ public class Card {
 
 	private LocalDate creationDate;
 	private LocalDate expirationDate;
-	public static int duration = 1;
+	public static int duration = 1; // years
 
 	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -44,9 +50,10 @@ public class Card {
 		this.user = user;	
 	}
 
-	public Card(LocalDate creationDate) {
+	public Card(LocalDate creationDate, User user) {
 		this.creationDate = creationDate;
 		this.expirationDate = creationDate.plusYears(Card.duration);
+		this.user = user;
 	}
 
 	public long getId() {
@@ -103,7 +110,7 @@ public class Card {
 	@Override
 	public String toString() {
 		return "Card [id=" + id + ", creationDate=" + creationDate + ", expirationDate=" + expirationDate
-				+ ", subscriptions=" + subscriptions + ", user=" + user + "]";
+				+ ", subscriptions=" + subscriptions + ", user=" + user.getId() + "]";
 	}
 
 	public boolean isExpired() {
@@ -123,8 +130,11 @@ public class Card {
 	}
 
 	public static Card randomCard() {
+		UserDAO userDAO = new UserDAO();
 		Random random = new Random();
+		List<User> usersWithoutCard = userDAO.getAllWithoutCard();
+		User randomUser = usersWithoutCard.get(random.nextInt(usersWithoutCard.size()));
 		LocalDate creationDate = LocalDate.now().minusYears(5).plusDays(random.nextInt(1826));
-		return new Card(creationDate);
+		return new Card(creationDate, randomUser);
 	}
 }

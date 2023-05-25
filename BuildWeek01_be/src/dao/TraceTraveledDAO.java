@@ -1,146 +1,123 @@
 package dao;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
-import org.hibernate.internal.build.AllowSysOut;
-
-import interfaces.IPassDAO;
+import models.Trace;
+import models.TraceTraveled;
 import utils.JpaUtil;
-import models.Pass;
 
-public class PassDAO implements IPassDAO {
-	
-	@Override
-    public void save(Pass p) {
+public class TraceTraveledDAO {
+    public void save(TraceTraveled traceTraveled) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(p);
+            em.persist(traceTraveled);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error saving pass: %s",
-                            e.getMessage()));
-            em.getTransaction().rollback();
-            System.out.println(e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-	
-	@Override
-    public Pass getById(long id) {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        Pass pass = null;
-        try {
-            em.getTransaction().begin();
-            pass = em.find(Pass.class, id);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Error getting pass by id: %s", id));
-            System.out.println(e.getMessage());
-        } finally {
-            em.close();
-        }
-        return pass;
-    }
-
-	@Override
-    public List<Pass> getAll() {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        List<Pass> loans = null;
-        try {
-            em.getTransaction().begin();
-            TypedQuery<Pass> query = em.createQuery(
-                    "SELECT p FROM Pass p", Pass.class);
-            loans = query.getResultList();
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Error getting all passes: %s",
+                            "Error while saving TraceTraveled: %s",
                             e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
-        return loans;
     }
 
-    @Override
-    public void update(Pass pass) {
+    public void saveAll(Set<TraceTraveled> traceTraveledSet) {
+        for (TraceTraveled traceTraveled : traceTraveledSet) {
+            save(traceTraveled);
+        }
+    }
+
+    public TraceTraveled getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        TraceTraveled traceTraveled = null;
         try {
             em.getTransaction().begin();
-            em.merge(pass);
+            traceTraveled = em.find(TraceTraveled.class, id);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error updating pass: %s",
+                            "Error while getting TraceTraveled with id %d: %s", id, e.getMessage()));
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return traceTraveled;
+    }
+
+    public void update(TraceTraveled traceTraveled) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(traceTraveled);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error while updating TraceTraveled: %s",
                             e.getMessage()));
-            em.getTransaction().rollback();
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
     }
 
-
-    @Override
-    public void delete(long id) {
+    public List<TraceTraveled> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<TraceTraveled> traceTraveledList = null;
         try {
             em.getTransaction().begin();
-            Pass pass = em.find(Pass.class, id);
-            em.remove(pass);
+            TypedQuery<TraceTraveled> query = em.createQuery("SELECT t FROM TraceTraveled t", TraceTraveled.class);
+            traceTraveledList = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Error removing pass by id: %s", id));
-            em.getTransaction().rollback();
+                            "Error while getting all TraceTraveled: %s",
+                            e.getMessage()));
             System.out.println(e.getMessage());
         } finally {
             em.close();
         }
+        return traceTraveledList;
+    }
+
+    public List<Trace> getByVeicleId(long veicleId) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Trace> traces = null;
+        try {
+            em.getTransaction().begin();
+            Query query = em.createNativeQuery(
+                    "SELECT * " +
+                    "FROM traces " +
+                    "WHERE id IN (SELECT veicles_traces.trace_id FROM veicles_traces WHERE veicle_id = :veicleId)",
+                    "TraceTraveledMapping");
+            query.setParameter("veicleId", veicleId);
+            traces = query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.out.println(
+                    String.format(
+                            "Error while getting TraceTraveled for Veicle with id %d: %s", veicleId, e.getMessage()));
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return traces;
     }
     
-    public List<Pass> listaTotPass(long id, LocalDate inizio, LocalDate fine) {
-        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        try {
-            Query query = em.createQuery("SELECT p FROM Pass p WHERE p.reseller.id = :id AND p.emissionDate BETWEEN :startDate AND :endDate");
-            query.setParameter("id", id);
-            query.setParameter("startDate", inizio);
-            query.setParameter("endDate", fine);
-            List<Pass> listPass = query.getResultList();
-            if (listPass.isEmpty()) {
-            	System.out.println("Non ci sono biglietti venduti per questa ricerca!");
-            }
-            return listPass;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println(
-                    String.format(
-                            "Errore durante la ricerca di tutte le carte: %s",
-                            e.getMessage()));
-            System.out.println(e.getMessage());
-            return null ;
-        } finally {
-            em.close();
-        }
-    }
+
 }
