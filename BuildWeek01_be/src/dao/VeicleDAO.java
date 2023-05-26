@@ -115,7 +115,6 @@ public class VeicleDAO implements IVeicleDAO {
     public List<Veicle> getVeiclesInService() {
     	List<Veicle> veicles = null;
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-        List<Veicle> veicles = null;
         try {
             TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVICE'",
                     Veicle.class);
