@@ -42,14 +42,8 @@ public class Card {
 
 	}
 
-	public Card(LocalDate creationDate, User user) {
-		super();
-		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(Card.duration);
-		this.user = user;	
-	}
 
-	public Card(LocalDate creationDate, User user) {
+	public Card (LocalDate creationDate, User user) {
 		this.creationDate = creationDate;
 		this.expirationDate = creationDate.plusYears(Card.duration);
 		this.user = user;

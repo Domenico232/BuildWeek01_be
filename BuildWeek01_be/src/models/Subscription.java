@@ -74,22 +74,7 @@ public class Subscription extends Pass {
         this.card = card;
     }
 
-    public LocalDate getDataScadenza() {
-		return dataScadenza;
-	}
-
-	public void setDataScadenza(LocalDate dataScadenza) {
-		this.dataScadenza = dataScadenza;
-	}
-
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
-	}
-
+  
 	@Override
     public String toString() {
     	return "Subscription [typeSubscription=" + typeSubscription + ", dataScadenza=" + dataScadenza + "]";
