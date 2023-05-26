@@ -14,6 +14,7 @@ import models.Subscription;
 import models.Ticket;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		run();
-		CardDAO cardDAO = new CardDAO();
+		/*CardDAO cardDAO = new CardDAO();
 		PassDAO passDAO = new PassDAO();
 		VeicleDAO veicleDAO = new VeicleDAO();
 		
@@ -37,18 +38,20 @@ public class Main {
 		
 		System.out.println("Numero di biglietti vidimati dal veicolo"+ " "+veicleDAO.getNumberOfTicketsByVeicleId(2));
 		
-		List<Pass> prova = passDAO.listaTotPass(2, LocalDate.of(2000, 5, 23), LocalDate.of(2023, 5, 24));
+		List<Pass> prova = passDAO.listaTotPass(2, LocalDate.of(2000, 5, 23), LocalDate.now());
 		prova.forEach(e -> System.out.println(e));
+		System.out.println(passDAO.getEndorsedTicketsInTimeRange(LocalDate.of(2000, 5, 23), LocalDate.now()));*/
+		System.out.println("fine");
 	}
 
 	public static void run() {
 		insertUsers(150);
-		insertCards(100);
 		insertResellers(50);
-		insertSubscriptions(100);
 		insertTraces(100);
-		insertTickets(150);
 		insertVeicles(5);
+		insertCards(100);
+		insertSubscriptions(100);
+		insertTickets(150);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();
 	}

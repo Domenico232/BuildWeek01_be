@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import dao.CardDAO;
 import dao.ResellerDAO;
+import dao.TraceDAO;
 import enumerates.TypeSubscription;
 
 @Entity
@@ -28,8 +29,9 @@ public class Subscription extends Pass {
     }
 
     public Subscription(String name, String description, double price, Reseller reseller,
-            TypeSubscription typeSubscription) {
-        super(name, description, price, reseller);
+            TypeSubscription typeSubscription,LocalDate emissionDate) {
+        super(name, description, price, reseller,emissionDate);
+        
         if (typeSubscription == TypeSubscription.MONTHLY) {
             this.dataScadenza = super.getEmissionDate().plusMonths(1);
             this.typeSubscription = typeSubscription;
@@ -43,7 +45,13 @@ public class Subscription extends Pass {
     public Subscription(long id, String name, String description, double price, Reseller reseller,
             TypeSubscription typeSubscription) {
         super(id, name, description, price, reseller);
-        this.typeSubscription = typeSubscription;
+        if (typeSubscription == TypeSubscription.MONTHLY) {
+            this.dataScadenza = super.getEmissionDate().plusMonths(1);
+            this.typeSubscription = typeSubscription;
+        } else if (typeSubscription == TypeSubscription.WEEKLY) {
+            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
+            this.typeSubscription = typeSubscription;
+        }
     }
 
     public long getId() {
@@ -62,8 +70,11 @@ public class Subscription extends Pass {
         return dataScadenza;
     }
 
-    public void setDataScadenza(LocalDate dataScadenza) {
-        this.dataScadenza = dataScadenza;
+    public void setDataScadenza() {
+        if (typeSubscription == TypeSubscription.MONTHLY) {
+        } else if (typeSubscription == TypeSubscription.WEEKLY) {
+            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
+        }
     }
 
     public Card getCard() {
@@ -83,6 +94,14 @@ public class Subscription extends Pass {
     	LocalDate randomDate = getRandomDate();
         ResellerDAO resellerDAO = new ResellerDAO();
         List<Reseller> resellers = resellerDAO.getAll();
+        
+        TraceDAO traceDAO =new TraceDAO();
+		List<Trace> traces = traceDAO.getAll();
+		if(traces.isEmpty()) {
+			System.out.println("No traces for tickets");
+			return null;
+		}
+        
         if (resellers.isEmpty()) {
             System.out.println("No resellers");
             return null;
@@ -103,13 +122,15 @@ public class Subscription extends Pass {
         Card card = cards.get(random.nextInt(cards.size()));
         Reseller reseller = resellers.get(random.nextInt(resellers.size()));
         Subscription subscription = new Subscription();
+        
+        subscription.setEmissionDate(randomDate);
+        subscription.setTrace(traces.get(random.nextInt(traces.size())));
         subscription.setName(name);
         subscription.setDescription(description);
         subscription.setPrice(price);
         subscription
                 .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         subscription.setReseller(reseller);
-        subscription.setDataScadenza(randomDate);
         subscription.setCard(card);
         return subscription;
     }

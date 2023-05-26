@@ -1,11 +1,13 @@
 package models;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Entity;
 
 import dao.ResellerDAO;
+import dao.TraceDAO;
 
 @Entity
 public class Ticket extends Pass{
@@ -31,8 +33,8 @@ public class Ticket extends Pass{
 		this.endorsed = endorsed;
 	}
 
-	public Ticket(String name, String description, double price, Reseller reseller, Boolean endorsed) {
-		super(name, description, price, reseller);
+	public Ticket(String name, String description, double price, Reseller reseller, Boolean endorsed,LocalDate emissionDate) {
+		super(name, description, price, reseller,emissionDate);
 		this.endorsed = endorsed;
 	}
 
@@ -43,6 +45,11 @@ public class Ticket extends Pass{
 	public void setEndorsed(Boolean endorsed) {
 		this.endorsed = endorsed;
 	}
+	
+	@Override
+	public void setEmissionDate(LocalDate emissionDate) {
+		super.setEmissionDate(emissionDate);
+	}
 
     @Override
     public String toString() {
@@ -52,6 +59,12 @@ public class Ticket extends Pass{
 	public static Ticket randomTicket() {
 		Random random = new Random();
 		ResellerDAO resellerDAO = new ResellerDAO();
+		TraceDAO traceDAO =new TraceDAO();
+		List<Trace> traces = traceDAO.getAll();
+		if(traces.isEmpty()) {
+			System.out.println("No traces for tickets");
+			return null;
+		}
 		List<Reseller> resellers = resellerDAO.getAll();
 		if(resellers.isEmpty()) {
 			System.out.println("No resellers");
@@ -65,6 +78,8 @@ public class Ticket extends Pass{
 		String description = descriptions[random.nextInt(descriptions.length)];
 		double price = prices[random.nextInt(prices.length)];
 		Ticket ticket = new Ticket();
+		
+		ticket.setTrace(traces.get(random.nextInt(traces.size())));
 		ticket.setName(name);
 		ticket.setDescription(description);
 		ticket.setPrice(price);

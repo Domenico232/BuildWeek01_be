@@ -3,12 +3,14 @@ package models;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -22,9 +24,12 @@ public abstract class Pass {
     private String name;
     private String description;
     private double price;
-    private LocalDate emissionDate = LocalDate.now();
+    
+    @Column(name = "emission_date")
+    private LocalDate emissionDate;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Trace trace;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -53,11 +58,12 @@ public abstract class Pass {
     }
     
     public Pass(String name, String description, double price,
-            Reseller reseller) {
+            Reseller reseller, LocalDate emissionDate) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.reseller = reseller;
+        this.emissionDate = emissionDate;
     }
 
     public long getId() {
@@ -115,6 +121,13 @@ public abstract class Pass {
     public void setVeicle(Veicle veicle) {
         this.veicle = veicle;
     }
+    public Trace getTrace() {
+		return trace;
+	}
+    public void setTrace(Trace trace) {
+		this.trace = trace;
+	}
+    
 
 	@Override
     public String toString() {
