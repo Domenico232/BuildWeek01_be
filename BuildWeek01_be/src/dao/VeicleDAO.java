@@ -12,13 +12,6 @@ import utils.JpaUtil;
 
 public class VeicleDAO implements IVeicleDAO {
 	
-	public int getNumberOfTicketsByVeicleId(long veicleId) {
-		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-	    Query query = em.createQuery("SELECT COUNT(p) FROM Pass p WHERE p.veicle.id = :veicleId");
-	    query.setParameter("veicleId", veicleId);
-	    Long count = (Long) query.getSingleResult();
-	    return count.intValue();
-	}
 
     @Override
     public void save(Veicle v) {
@@ -98,6 +91,25 @@ public class VeicleDAO implements IVeicleDAO {
         }
     }
 
+    public long getNumberOfTicketsByVeicleId(long veicleId) {
+    	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+    	Long count = null;
+    	
+    	try {
+    		Query query = em.createQuery("SELECT COUNT(p) FROM Pass p WHERE p.veicle.id = :veicleId");
+    		query.setParameter("veicleId", veicleId);
+    		count = (Long) query.getSingleResult();
+    		
+    	} catch (Exception e) {
+    		em.getTransaction().rollback();
+    		System.out.println("Errore nessun ticket vidimato su questo veicolo!!");
+    	} finally {
+    		em.close();
+    	}
+    	
+    	return count.longValue();
+    }
+    
     public List<Veicle> getVeiclesInService() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
