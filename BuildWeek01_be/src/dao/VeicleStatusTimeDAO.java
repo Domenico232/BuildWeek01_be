@@ -112,13 +112,15 @@ public class VeicleStatusTimeDAO implements IVeicleStatusTimeDAO {
         return veicleStatusTimes;
     }
 
-    public LocalDate getLastEndDate() {
+    public LocalDate getLastEndDate(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         LocalDate lastEndDate = null;
         try {
             em.getTransaction().begin();
-            TypedQuery<LocalDate> query = em.createQuery("SELECT v.endDate FROM VeicleStatusTime v ORDER BY v.id DESC",
+            TypedQuery<LocalDate> query = em.createQuery(
+                    "SELECT v.endDate FROM VeicleStatusTime v WHERE v.veicle.id = :id ORDER BY v.id DESC",
                     LocalDate.class);
+            query.setParameter("id", id);
             query.setMaxResults(1);
             lastEndDate = query.getSingleResult();
             em.getTransaction().commit();
@@ -126,9 +128,8 @@ public class VeicleStatusTimeDAO implements IVeicleStatusTimeDAO {
             em.getTransaction().rollback();
             System.out.println(
                     String.format(
-                            "Errore durante il recupero della data di fine dell'ultimo record inserito: %s",
-                            e.getMessage()));
-            System.out.println(e.getMessage());
+                            "Errore durante il recupero della data di fine dell'ultimo record inserito per l'ID %d: %s",
+                            id, e.getMessage()));
         } finally {
             em.close();
         }
