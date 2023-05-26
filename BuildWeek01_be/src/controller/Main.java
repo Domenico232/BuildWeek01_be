@@ -42,6 +42,7 @@ public class Main {
 		insertTickets(150);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();
+		insertVeicleStatusTimes(5);
 	}
 
 	public static void insertUsers(int quantity) {
@@ -119,26 +120,22 @@ public class Main {
 		PassDAO passDAO = new PassDAO();
 		VeicleDAO veicleDAO = new VeicleDAO();
 		List<Pass> tickets = passDAO.getTicketsNotEndorsed();
-		if (tickets == null) {
+		if (tickets.size() == 0) {
 			System.out.println("All tickets are not endorsed");
 		}
 		List<Veicle> veicles = veicleDAO.getVeiclesInService();
-		if (veicles == null) {
+		if (veicles.size() == 0) {
 			System.out.println("All veicles are out of service");
 		}
 		Random rand = new Random();
-
 		for (int i = 0; i < tickets.size(); i += 2) {
-
 			Ticket ticket = (Ticket) tickets.get(i);
 			Veicle veicle = veicles.get(rand.nextInt(veicles.size()-1));
 
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);
-
 			veicle.addTicket(ticket);
 			passDAO.update(ticket);
-
 		}
 	}
 
@@ -153,5 +150,19 @@ public class Main {
 			}
 		}
 
+	}
+
+	public static void insertVeicleStatusTimes(int quantity) {
+		VeicleDAO veicleDAO = new VeicleDAO();
+		List<Veicle> veicles = veicleDAO.getAll();
+		if (veicles == null) {
+			System.out.println("All veicles are out of service");
+		}
+		Random rand = new Random();
+		for (int i = 0; i < quantity; i++) {
+			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			veicle.toggleTypeStatus();
+			veicleDAO.update(veicle);
+		}
 	}
 }

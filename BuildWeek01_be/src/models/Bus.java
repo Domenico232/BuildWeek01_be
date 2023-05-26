@@ -43,7 +43,7 @@ public class Bus extends Veicle {
 
 	public static Bus randomBus() {
 		Random rand = new Random();
-		TypeStatus randType = rand.nextBoolean() ? TypeStatus.SERVIZIO : TypeStatus.MANUTENZIONE;
+		TypeStatus randType = rand.nextBoolean() ? TypeStatus.SERVICE : TypeStatus.MAINTENANCE;
 		Bus bus = new Bus(randType);
 		TraceDAO traceDAO = new TraceDAO();
 		List<Trace> traces = traceDAO.getAll();
