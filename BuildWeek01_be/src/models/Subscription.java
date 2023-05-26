@@ -19,7 +19,7 @@ import enumerates.TypeSubscription;
 public class Subscription extends Pass {
     @Enumerated(EnumType.STRING)
     private TypeSubscription typeSubscription;
-    private LocalDate dataScadenza;
+    private LocalDate expirationDate;
 
     @OneToOne
     private Card card;
@@ -28,34 +28,94 @@ public class Subscription extends Pass {
         super();
     }
 
-    public Subscription(String name, String description, double price, Reseller reseller,
-            TypeSubscription typeSubscription,LocalDate emissionDate) {
-        super(name, description, price, reseller,emissionDate);
-        
-        if (typeSubscription == TypeSubscription.MONTHLY) {
-            this.dataScadenza = super.getEmissionDate().plusMonths(1);
-            this.typeSubscription = typeSubscription;
-        } else if (typeSubscription == TypeSubscription.WEEKLY) {
-            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
-            this.typeSubscription = typeSubscription;
-        }
-
+    public Subscription(String name, String description, double price,
+            Reseller reseller, LocalDate creationDate,
+            TypeSubscription typeSubscription) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.reseller = reseller;
+        this.creationDate = creationDate;
+        this.setExpirationDate();
+        this.typeSubscription = typeSubscription;
     }
 
-    public Subscription(long id, String name, String description, double price, Reseller reseller,
+    public Subscription(long id, String name, String description, double price,
+            Reseller reseller, LocalDate creationDate,
             TypeSubscription typeSubscription) {
-        super(id, name, description, price, reseller);
-        if (typeSubscription == TypeSubscription.MONTHLY) {
-            this.dataScadenza = super.getEmissionDate().plusMonths(1);
-            this.typeSubscription = typeSubscription;
-        } else if (typeSubscription == TypeSubscription.WEEKLY) {
-            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
-            this.typeSubscription = typeSubscription;
-        }
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.reseller = reseller;
+        this.creationDate = creationDate;
+        this.setExpirationDate();
+        this.typeSubscription = typeSubscription;
     }
 
     public long getId() {
-        return super.getId();
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return this.price;
+    }
+
+    public Trace getTrace() {
+        return this.trace;
+    }
+
+    public void setTrace(Trace trace) {
+        this.trace = trace;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Reseller getReseller() {
+        return this.reseller;
+    }
+
+    public void setReseller(Reseller reseller) {
+        this.reseller = reseller;
+    }
+
+    public LocalDate getCreationDate() {
+        return this.creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+        this.setExpirationDate();
+    }
+
+    public Veicle getVeicle() {
+        return this.veicle;
+    }
+
+    public void setVeicle(Veicle veicle) {
+        this.veicle = veicle;
     }
 
     public TypeSubscription getTypeSubscription() {
@@ -66,14 +126,17 @@ public class Subscription extends Pass {
         this.typeSubscription = typeSubscription;
     }
 
-    public LocalDate getDataScadenza() {
-        return dataScadenza;
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setDataScadenza() {
-        if (typeSubscription == TypeSubscription.MONTHLY) {
-        } else if (typeSubscription == TypeSubscription.WEEKLY) {
-            this.dataScadenza = super.getEmissionDate().plusWeeks(1);
+    private void setExpirationDate() {
+        if (typeSubscription == TypeSubscription.WEEKLY) {
+            expirationDate = this.creationDate.plusWeeks(1);
+        } else if (typeSubscription == TypeSubscription.MONTHLY) {
+            expirationDate = this.creationDate.plusMonths(1);
+        } else {
+            System.out.println("No expiration date");
         }
     }
 
@@ -87,23 +150,33 @@ public class Subscription extends Pass {
 
     @Override
     public String toString() {
-        return "Subscription [typeSubscription=" + typeSubscription + ", dataScadenza=" + dataScadenza + "]";
+        return "Subscription{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", reseller=" + reseller +
+                ", veicle=" + veicle +
+                ", trace=" + trace +
+                ", creationDate=" + creationDate +
+                ", expirationDate=" + expirationDate +
+                ", typeSubscription=" + typeSubscription +
+                '}';
     }
 
     public static Subscription randomSubscription() {
-    	LocalDate randomDate = getRandomDate();
         ResellerDAO resellerDAO = new ResellerDAO();
         List<Reseller> resellers = resellerDAO.getAll();
-        
-        TraceDAO traceDAO =new TraceDAO();
-		List<Trace> traces = traceDAO.getAll();
-		if(traces.isEmpty()) {
-			System.out.println("No traces for tickets");
-			return null;
-		}
-        
+
+        TraceDAO traceDAO = new TraceDAO();
+        List<Trace> traces = traceDAO.getAll();
+        if (traces.isEmpty()) {
+            System.out.println("No traces for subscriptions");
+            return null;
+        }
+
         if (resellers.isEmpty()) {
-            System.out.println("No resellers");
+            System.out.println("No resellers for subscriptions");
             return null;
         }
         CardDAO cardDAO = new CardDAO();
@@ -122,29 +195,16 @@ public class Subscription extends Pass {
         Card card = cards.get(random.nextInt(cards.size()));
         Reseller reseller = resellers.get(random.nextInt(resellers.size()));
         Subscription subscription = new Subscription();
-        
-        subscription.setEmissionDate(randomDate);
+
+        subscription
+                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
+        subscription.setCreationDate(LocalDate.now().minusYears(2).plusDays(random.nextInt(730)));
         subscription.setTrace(traces.get(random.nextInt(traces.size())));
         subscription.setName(name);
         subscription.setDescription(description);
         subscription.setPrice(price);
-        subscription
-                .setTypeSubscription(TypeSubscription.values()[new Random().nextInt(TypeSubscription.values().length)]);
         subscription.setReseller(reseller);
         subscription.setCard(card);
         return subscription;
-    }
-
-    public static LocalDate getRandomDate() {
-        LocalDate startDate = LocalDate.of(1900, 1, 1);  // Data di inizio
-        LocalDate endDate = LocalDate.now();  // Data di fine (data corrente)
-
-        long randomDays = getRandomNumber(0, ChronoUnit.DAYS.between(startDate, endDate));
-        return startDate.plusDays(randomDays);
-    }
-
-    public static long getRandomNumber(long min, long max) {
-        Random random = new Random();
-        return min + random.nextLong() % (max - min + 1);
     }
 }
