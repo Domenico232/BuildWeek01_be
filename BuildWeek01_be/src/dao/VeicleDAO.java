@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import interfaces.IVeicleDAO;
@@ -10,6 +11,7 @@ import models.Veicle;
 import utils.JpaUtil;
 
 public class VeicleDAO implements IVeicleDAO {
+	
 
     @Override
     public void save(Veicle v) {
@@ -89,19 +91,39 @@ public class VeicleDAO implements IVeicleDAO {
         }
     }
 
+    public long getNumberOfTicketsByVeicleId(long veicleId) {
+    	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+    	Long count = null;
+    	
+    	try {
+    		Query query = em.createQuery("SELECT COUNT(p) FROM Pass p WHERE p.veicle.id = :veicleId");
+    		query.setParameter("veicleId", veicleId);
+    		count = (Long) query.getSingleResult();
+    		
+    	} catch (Exception e) {
+    		em.getTransaction().rollback();
+    		System.out.println("Errore nessun ticket vidimato su questo veicolo!!");
+    	} finally {
+    		em.close();
+    	}
+    	
+    	return count.longValue();
+    }
+    
     public List<Veicle> getVeiclesInService() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Veicle> veicles = null;
         try {
-            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVIZIO'",
+            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVICE'",
                     Veicle.class);
-            return query.getResultList();
+            veicles = query.getResultList();
         } catch (Exception e) {
             System.out.println("Errore: impossibile recuperare i veicoli in servizio");
             System.out.println(e.getMessage());
-            return null;
         } finally {
             em.close();
         }
+        return veicles;
     }
 
 }

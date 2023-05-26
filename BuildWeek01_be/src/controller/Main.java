@@ -12,8 +12,6 @@ import models.Pass;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
-
-
 import java.util.List;
 import java.util.Random;
 
@@ -28,19 +26,23 @@ import dao.VeicleDAO;
 public class Main {
 
 	public static void main(String[] args) {
+		 VeicleDAO veicleDAO = new VeicleDAO();
 		run();
+		 System.out.println("Numero di biglietti vidimati dal veicolo"+ " "+veicleDAO.getNumberOfTicketsByVeicleId(2));
+		System.out.println("********** END **********");
 	}
 
 	public static void run() {
-		insertUsers(15);
-		insertCards(10);
-		insertResellers(5);
-		insertSubscriptions(50);
-		insertTraces(50);
-		insertTickets(10);
+		insertUsers(150);
+		insertResellers(50);
+		insertTraces(100);
 		insertVeicles(5);
+		insertCards(100);
+		insertSubscriptions(100);
+		insertTickets(150);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();
+		insertVeicleStatusTimes(5);
 	}
 
 	public static void insertUsers(int quantity) {
@@ -118,22 +120,21 @@ public class Main {
 		PassDAO passDAO = new PassDAO();
 		VeicleDAO veicleDAO = new VeicleDAO();
 		List<Pass> tickets = passDAO.getTicketsNotEndorsed();
-		if (tickets == null) {
+		if (tickets.size() == 0) {
 			System.out.println("All tickets are not endorsed");
 		}
 		List<Veicle> veicles = veicleDAO.getVeiclesInService();
-		if (veicles == null) {
+		if (veicles.size() == 0) {
 			System.out.println("All veicles are out of service");
 		}
 		Random rand = new Random();
-		for (int i = 0; i < tickets.size(); i += 3) {
+		for (int i = 0; i < tickets.size(); i += 2) {
 			Ticket ticket = (Ticket) tickets.get(i);
 			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);
 			veicle.addTicket(ticket);
 			passDAO.update(ticket);
-			veicleDAO.update(veicle);
 		}
 	}
 
@@ -148,5 +149,19 @@ public class Main {
 			}
 		}
 
+	}
+
+	public static void insertVeicleStatusTimes(int quantity) {
+		VeicleDAO veicleDAO = new VeicleDAO();
+		List<Veicle> veicles = veicleDAO.getAll();
+		if (veicles == null) {
+			System.out.println("All veicles are out of service");
+		}
+		Random rand = new Random();
+		for (int i = 0; i < quantity; i++) {
+			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			veicle.toggleTypeStatus();
+			veicleDAO.update(veicle);
+		}
 	}
 }

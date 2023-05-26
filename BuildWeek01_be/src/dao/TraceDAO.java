@@ -3,13 +3,15 @@ package dao;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import interfaces.ITraceDAO;
 import models.Trace;
 import utils.JpaUtil;
 
 import java.util.Set;
 import java.util.List;
 
-public class TraceDAO {
+public class TraceDAO implements ITraceDAO{
+	@Override
     public void save(Trace trace) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -27,13 +29,13 @@ public class TraceDAO {
             em.close();
         }
     }
-
+	@Override
     public void saveAll(Set<Trace> traces) {
         for (Trace trace : traces) {
             save(trace);
         }
     }
-
+	@Override
     public Trace getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         Trace trace = null;
@@ -52,7 +54,7 @@ public class TraceDAO {
         }
         return trace;
     }
-
+	@Override
     public void update(Trace trace) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -70,7 +72,7 @@ public class TraceDAO {
             em.close();
         }
     }
-
+	@Override
     public List<Trace> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         List<Trace> traces = null;
