@@ -3,7 +3,6 @@ package dao;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -127,7 +126,7 @@ public class CardDAO implements ICardDAO {
             card = query1.getSingleResult();
             Set <Subscription> setSub = card.getSubscriptions();
             Subscription s = setSub.stream().filter(e -> e.getId() == idsub).findFirst().get();
-            LocalDate data = s.getDataScadenza();            
+            LocalDate data = s.getExpirationDate();
             if (data.isBefore(today)) {
             	System.out.println("Abbonamento non attivo su questa tessera, RICARICARE!!");
             } else {

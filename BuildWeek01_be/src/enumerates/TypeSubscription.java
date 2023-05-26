@@ -1,11 +1,6 @@
 package enumerates;
 
-
 public enum TypeSubscription {
-     WEEKLY,
+    WEEKLY,
     MONTHLY;
-
-
-
-	
 }

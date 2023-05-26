@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import interfaces.IVeicleDAO;
@@ -10,6 +11,14 @@ import models.Veicle;
 import utils.JpaUtil;
 
 public class VeicleDAO implements IVeicleDAO {
+	
+	public int getNumberOfTicketsByVeicleId(long veicleId) {
+		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+	    Query query = em.createQuery("SELECT COUNT(p) FROM Pass p WHERE p.veicle.id = :veicleId");
+	    query.setParameter("veicleId", veicleId);
+	    Long count = (Long) query.getSingleResult();
+	    return count.intValue();
+	}
 
     @Override
     public void save(Veicle v) {

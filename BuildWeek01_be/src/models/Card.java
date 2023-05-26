@@ -43,12 +43,6 @@ public class Card {
 	}
 
 
-	public Card (LocalDate creationDate, User user) {
-		this.creationDate = creationDate;
-		this.expirationDate = creationDate.plusYears(Card.duration);
-		this.user = user;
-	}
-
 	public long getId() {
 		return id;
 	}
