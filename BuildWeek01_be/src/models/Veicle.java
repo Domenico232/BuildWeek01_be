@@ -1,9 +1,11 @@
 package models;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -54,11 +56,17 @@ public abstract class Veicle {
 
 	public void setTypeStatus(TypeStatus typeStatus) {
 		VeicleStatusTimeDAO dao = new VeicleStatusTimeDAO();
-		LocalDate creationDate = dao.getLastEndDate();
+		LocalDate creationDate = dao.getLastEndDate(this.id);
 		LocalDate endDate = LocalDate.now();
+		Random random = new Random();
+		if (creationDate == null) {
+			creationDate = LocalDate.now().minusYears(10).plusDays(random.nextInt(3650));
+			endDate = creationDate.plusMonths(1);
+		}
 		VeicleStatusTime veicleStatusTime = new VeicleStatusTime(this);
 		veicleStatusTime.setCreationDate(creationDate);
 		veicleStatusTime.setEndDate(endDate);
+		veicleStatusTime.setElapsedDays((int) ChronoUnit.DAYS.between(creationDate, endDate));
 		dao.save(veicleStatusTime);
 		this.typeStatus = typeStatus;
 	}
@@ -94,6 +102,14 @@ public abstract class Veicle {
 		ticket.setEndorsed(true);
 		this.tickets.add(ticket);
 
+	}
+
+	public Set<Ticket> getTickets() {
+		return this.tickets;
+	}
+
+	public void setTickets(Set<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 	@Override
