@@ -26,7 +26,9 @@ import dao.VeicleDAO;
 public class Main {
 
 	public static void main(String[] args) {
+		 VeicleDAO veicleDAO = new VeicleDAO();
 		run();
+		 System.out.println("Numero di biglietti vidimati dal veicolo"+ " "+veicleDAO.getNumberOfTicketsByVeicleId(2));
 		System.out.println("********** END **********");
 	}
 

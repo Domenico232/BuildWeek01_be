@@ -1,14 +1,19 @@
 package dao;
 
 import java.util.List;
+
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import interfaces.ITraceTraveledDAO;
 import models.TraceTraveled;
 import utils.JpaUtil;
 
-public class TraceTraveledDAO {
+
+public class TraceTraveledDAO implements ITraceTraveledDAO {
+	
+	@Override
     public void save(TraceTraveled traceTraveled) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -32,7 +37,7 @@ public class TraceTraveledDAO {
             save(traceTraveled);
         }
     }
-
+    @Override
     public TraceTraveled getById(long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         TraceTraveled traceTraveled = null;
@@ -51,7 +56,7 @@ public class TraceTraveledDAO {
         }
         return traceTraveled;
     }
-
+    @Override
     public void update(TraceTraveled traceTraveled) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -69,7 +74,7 @@ public class TraceTraveledDAO {
             em.close();
         }
     }
-
+    @Override
     public List<TraceTraveled> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         List<TraceTraveled> traceTraveledList = null;

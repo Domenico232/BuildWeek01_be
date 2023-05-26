@@ -13,5 +13,7 @@ public interface IVeicleDAO {
 	public Veicle getById(Long id);
 	public void update(Veicle e);
 	public List<Veicle> getAll();
+	public long getNumberOfTicketsByVeicleId(long veicleId);
+	public List<Veicle> getVeiclesInService();
 
 }
