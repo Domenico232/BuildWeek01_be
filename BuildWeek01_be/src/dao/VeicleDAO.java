@@ -100,17 +100,18 @@ public class VeicleDAO implements IVeicleDAO {
 
     public List<Veicle> getVeiclesInService() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Veicle> veicles = null;
         try {
-            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVIZIO'",
+            TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVICE'",
                     Veicle.class);
-            return query.getResultList();
+            veicles = query.getResultList();
         } catch (Exception e) {
             System.out.println("Errore: impossibile recuperare i veicoli in servizio");
             System.out.println(e.getMessage());
-            return null;
         } finally {
             em.close();
         }
+        return veicles;
     }
 
 }
