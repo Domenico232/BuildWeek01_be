@@ -30,18 +30,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		run();
-		/*CardDAO cardDAO = new CardDAO();
-		PassDAO passDAO = new PassDAO();
-		VeicleDAO veicleDAO = new VeicleDAO();
-		
-		cardDAO.verificaValidita (1,cardDAO.getById(1).getSubscriptions().stream().findFirst().get().getId());
-		
-		System.out.println("Numero di biglietti vidimati dal veicolo"+ " "+veicleDAO.getNumberOfTicketsByVeicleId(2));
-		
-		List<Pass> prova = passDAO.listaTotPass(2, LocalDate.of(2000, 5, 23), LocalDate.now());
-		prova.forEach(e -> System.out.println(e));
-		System.out.println(passDAO.getEndorsedTicketsInTimeRange(LocalDate.of(2000, 5, 23), LocalDate.now()));*/
-		System.out.println("fine");
+		System.out.println("********** END **********");
 	}
 
 	public static void run() {

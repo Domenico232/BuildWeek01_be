@@ -1,20 +1,16 @@
 package dao;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
 
 import interfaces.IPassDAO;
 import utils.JpaUtil;
-import models.Card;
 import models.Pass;
-import models.Ticket;
 
 public class PassDAO implements IPassDAO {
 	@PersistenceContext
