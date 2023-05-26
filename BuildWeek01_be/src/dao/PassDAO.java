@@ -106,11 +106,11 @@ public class PassDAO implements IPassDAO {
 		}
 	}
 
-	public List<Pass> listaTotPass(long id, LocalDate inizio, LocalDate fine) {
+	public List<Pass> getPassFromSeller(long id, LocalDate inizio, LocalDate fine) {
 		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
 		try {
 			TypedQuery<Pass> query = em.createQuery(
-					"SELECT p FROM Pass p WHERE p.reseller.id = :id AND p.emissionDate BETWEEN :startDate AND :endDate",
+					"SELECT p FROM Pass p WHERE p.reseller.id = :id AND p.creationDate BETWEEN :startDate AND :endDate",
 					Pass.class);
 			query.setParameter("id", id);
 			query.setParameter("startDate", inizio);
@@ -150,7 +150,7 @@ public class PassDAO implements IPassDAO {
 		 List<Pass> tickets = null;
 		try {
 			TypedQuery<Pass> query = entityManager.createQuery("SELECT t FROM Pass t WHERE t.endorsed = true "
-					+ "AND t.emissionDate BETWEEN :startTime AND :endTime", Pass.class);
+					+ "AND t.creationDate BETWEEN :startTime AND :endTime", Pass.class);
 			query.setParameter("startTime", startTime);
 			query.setParameter("endTime", endTime);
 			tickets = query.getResultList();

@@ -114,35 +114,4 @@ public class CardDAO implements ICardDAO {
         return cards;
     }
     
-    
-    public void verificaValidita (long id, long idsub) {
-    	EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
-    	Card card = null;
-    	LocalDate today = LocalDate.now();
-    	try {
-    		em.getTransaction().begin();
-    		TypedQuery<Card> query1 = em.createQuery("SELECT c FROM Card c WHERE c.id = :id  ", Card.class);
-            query1.setParameter("id", id);
-            card = query1.getSingleResult();
-            Set <Subscription> setSub = card.getSubscriptions();
-            Subscription s = setSub.stream().filter(e -> e.getId() == idsub).findFirst().get();
-            LocalDate data = s.getExpirationDate();
-            if (data.isBefore(today)) {
-            	System.out.println("Abbonamento non attivo su questa tessera, RICARICARE!!");
-            } else {
-            	System.out.println("Abbonamento attivo su questa tessera");
-            }
-            em.getTransaction().commit();
-         } catch (Exception e) {
-             em.getTransaction().rollback();
-             System.out.println(
-                     String.format(
-                             "Errore durante la ricerca di tutte le carte: %s",
-                             e.getMessage()));
-             System.out.println(e.getMessage());
-         } finally {
-             em.close();
-         }		
-    }
-
 }

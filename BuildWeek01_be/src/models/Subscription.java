@@ -138,6 +138,14 @@ public class Subscription extends Pass {
             System.out.println("No expiration date");
         }
     }
+    
+    public boolean isExpired() {
+		return LocalDate.now().isAfter(expirationDate);
+	}
+    
+    public boolean isValid() {
+		return LocalDate.now().isBefore(expirationDate);
+	}
 
     public Card getCard() {
         return card;
