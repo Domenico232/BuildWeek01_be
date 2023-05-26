@@ -40,89 +40,88 @@ public class Main {
 
 	public static void main(String[] args) {
 		run();
-		System.out.println("Sistema gestionale di azienda di autotrasporti");
-		//operationSystem();
-		Card c = cardDAO.getById(2);
-		Set <Subscription> listSub = c.getSubscriptions();
-	
-		for (int i = 0; i < subList.length; i++) {
-			if (subList[i].isValid()) {
-				System.out.println("L'abbonamento numero: " + subList[i].getId() + " è valido");
-			} else {
-				System.out.println("L'abbonamento numero: " + subList[i].getId() + " non è valido");
-			}
-		}
 		System.out.println("********** END **********");
 	}
-	
-	
-	public static void operationSystem () {
+
+	public static void operationSystem() {
+		System.out.println("Sistema gestionale di azienda di autotrasporti");
+		System.out.println();
 		System.out.println("Inserisci il numero della ricerca che vuoi effettuare: ");
 		System.out.println(" 1 - Abbonamenti attivi inserendo un numero di tessera ");
 		System.out.println(" 2 - Biglietti vidimati su un mezzo");
 		System.out.println(" 3 - Bigletti vidimati in un lasso di tempo");
 		System.out.println(" 4 - Biglietti venduti da un venditore in un lasso di tempo");
 		int number = sc.nextInt();
-		
+
 		switch (number) {
-		case (1):{
-			System.out.println("Inserisci il numero di tessera da verificare");
-			int numb1 = sc.nextInt();
-			Card c = cardDAO.getById(numb1);
-			System.out.println(c.getSubscriptions());
-			break;
-		}
-		case (2): {
-			System.out.println("Inserisci il numero del mezzo:");
-			int number1 = sc.nextInt();
-			System.out.println("Numero di biglietti vidimati dal veicolo "  + number1 + ": " + veicleDAO.getNumberOfTicketsByVeicleId(number1));
-			break;
-		}
-		case (3): {
-			System.out.println("Inserisci la data di partenza ");
-			System.out.println("---------------------------------");
-			System.out.println("Inserisci l'anno: ");
-			int anno1 = sc.nextInt(); 
-			System.out.println("Inserisci il mese: ");
-			int mese1 = sc.nextInt(); 
-			System.out.println("Inserisci il giorno: ");
-			int giorno1 = sc.nextInt(); 
-			System.out.println("Inserisci la data di fine ");
-			System.out.println("---------------------------------");
-			System.out.println("Inserisci l'anno: ");
-			int anno2 = sc.nextInt(); 
-			System.out.println("Inserisci il mese: ");
-			int mese2 = sc.nextInt(); 
-			System.out.println("Inserisci il giorno: ");
-			int giorno2 = sc.nextInt(); 
-			System.out.println(passDAO.getEndorsedTicketsInTimeRange(LocalDate.of(anno1, mese1, giorno1), LocalDate.of(anno2, mese2, giorno2)));
-			break;
-		}
-		case (4):{
-			System.out.println("Inserisci il codice del venditore: ");
-			int venditore = sc.nextInt(); 
-			System.out.println("Inserisci la data di partenza ");
-			System.out.println("---------------------------------");
-			System.out.println("Inserisci l'anno: ");
-			int anno3 = sc.nextInt(); 
-			System.out.println("Inserisci il mese: ");
-			int mese3 = sc.nextInt(); 
-			System.out.println("Inserisci il giorno: ");
-			int giorno3 = sc.nextInt(); 
-			System.out.println("Inserisci la data di fine: ");
-			System.out.println("Inserisci l'anno: ");
-			int anno4 = sc.nextInt(); 
-			System.out.println("Inserisci il mese: ");
-			int mese4 = sc.nextInt(); 
-			System.out.println("Inserisci il giorno: ");
-			int giorno4 = sc.nextInt(); 
-			List<Pass> prova = passDAO.getPassFromSeller(venditore, LocalDate.of(anno3, mese3, giorno3), LocalDate.of(anno4, mese4, giorno4));
-		    prova.forEach(e -> System.out.println(e));
-		    break;
-		}
-		default : 
-			System.out.println("Errore nella dicitura, ti invitiamo a riprovare!");
-			operationSystem();	
+			case (1): {
+				System.out.println("Inserisci il numero di tessera da verificare");
+				int choice = sc.nextInt();
+				Card card = cardDAO.getById(choice);
+				Set<Subscription> subscriptions = card.getSubscriptions();
+				for (Subscription subscription : subscriptions) {
+					if (subscription.isValid()) {
+						System.out.println("L'abbonamento numero: " + subscription.getId() + " è valido");
+					} else {
+						System.out.println("L'abbonamento numero: " + subscription.getId() + " è scaduto");
+					}
+				}
+				break;
+			}
+			case (2): {
+				System.out.println("Inserisci il numero del mezzo:");
+				int choice = sc.nextInt();
+				System.out.println("Numero di biglietti vidimati dal veicolo " + choice + ": "
+						+ veicleDAO.getNumberOfTicketsByVeicleId(choice));
+				break;
+			}
+			case (3): {
+				System.out.println("Inserisci la data di partenza ");
+				System.out.println("---------------------------------");
+				System.out.println("Inserisci l'anno: ");
+				int anno1 = sc.nextInt();
+				System.out.println("Inserisci il mese: ");
+				int mese1 = sc.nextInt();
+				System.out.println("Inserisci il giorno: ");
+				int giorno1 = sc.nextInt();
+				System.out.println("Inserisci la data di fine ");
+				System.out.println("---------------------------------");
+				System.out.println("Inserisci l'anno: ");
+				int anno2 = sc.nextInt();
+				System.out.println("Inserisci il mese: ");
+				int mese2 = sc.nextInt();
+				System.out.println("Inserisci il giorno: ");
+				int giorno2 = sc.nextInt();
+				System.out.println(passDAO.getEndorsedTicketsInTimeRange(LocalDate.of(anno1, mese1, giorno1),
+						LocalDate.of(anno2, mese2, giorno2)));
+				break;
+			}
+			case (4): {
+				System.out.println("Inserisci il codice del venditore: ");
+				int venditore = sc.nextInt();
+				System.out.println("Inserisci la data di partenza ");
+				System.out.println("---------------------------------");
+				System.out.println("Inserisci l'anno: ");
+				int anno3 = sc.nextInt();
+				System.out.println("Inserisci il mese: ");
+				int mese3 = sc.nextInt();
+				System.out.println("Inserisci il giorno: ");
+				int giorno3 = sc.nextInt();
+				System.out.println("Inserisci la data di fine: ");
+				System.out.println("Inserisci l'anno: ");
+				int anno4 = sc.nextInt();
+				System.out.println("Inserisci il mese: ");
+				int mese4 = sc.nextInt();
+				System.out.println("Inserisci il giorno: ");
+				int giorno4 = sc.nextInt();
+				List<Pass> prova = passDAO.getPassFromSeller(venditore, LocalDate.of(anno3, mese3, giorno3),
+						LocalDate.of(anno4, mese4, giorno4));
+				prova.forEach(e -> System.out.println(e));
+				break;
+			}
+			default:
+				System.out.println("Errore nella dicitura, ti invitiamo a riprovare!");
+				operationSystem();
 		}
 		sc.close();
 	}
