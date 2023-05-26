@@ -107,6 +107,10 @@ public class VeicleStatusTime {
         return elapsedDays;
     }
 
+    public void setElapsedDays(int elapsedDays) {
+        this.elapsedDays = elapsedDays;
+    }
+
     @Override
     public String toString() {
         return "VeicleStatusTime [id=" + id + ", veicle=" + veicle +
