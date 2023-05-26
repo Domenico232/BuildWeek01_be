@@ -40,6 +40,7 @@ public class Main {
 		insertTickets(150);
 		insertTracesTraveled(20);
 		insertTicketsInBuses();
+		insertVeicleStatusTimes(5);
 	}
 
 	public static void insertUsers(int quantity) {
@@ -129,7 +130,7 @@ public class Main {
 		for (int i = 0; i < tickets.size(); i += 2) {
 
 			Ticket ticket = (Ticket) tickets.get(i);
-			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			Veicle veicle = veicles.get(rand.nextInt(veicles.size() - 1));
 
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);
@@ -151,5 +152,19 @@ public class Main {
 			}
 		}
 
+	}
+
+	public static void insertVeicleStatusTimes(int quantity) {
+		VeicleDAO veicleDAO = new VeicleDAO();
+		List<Veicle> veicles = veicleDAO.getAll();
+		if(veicles == null) {
+			System.out.println("All veicles are out of service");
+		}
+		Random rand = new Random();
+		for (int i = 0; i < quantity; i++) {
+			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			veicle.toggleTypeStatus();
+			veicleDAO.update(veicle);
+		}
 	}
 }

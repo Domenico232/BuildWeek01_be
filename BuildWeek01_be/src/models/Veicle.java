@@ -1,4 +1,6 @@
 package models;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,12 +13,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import dao.VeicleStatusTimeDAO;
 import enumerates.TypeStatus;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
 @Entity
 @Table(name = "veicles")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -48,7 +53,22 @@ public abstract class Veicle {
 	}
 
 	public void setTypeStatus(TypeStatus typeStatus) {
+		VeicleStatusTimeDAO dao = new VeicleStatusTimeDAO();
+		LocalDate creationDate = dao.getLastEndDate();
+		LocalDate endDate = LocalDate.now();
+		VeicleStatusTime veicleStatusTime = new VeicleStatusTime(this);
+		veicleStatusTime.setCreationDate(creationDate);
+		veicleStatusTime.setEndDate(endDate);
+		dao.save(veicleStatusTime);
 		this.typeStatus = typeStatus;
+	}
+
+	public void toggleTypeStatus() {
+		if (this.typeStatus == TypeStatus.SERVICE) {
+			this.setTypeStatus(TypeStatus.MAINTENANCE);
+		} else {
+			this.setTypeStatus(TypeStatus.SERVICE);
+		}
 	}
 
 	public List<Trace> getListTraces() {
@@ -66,6 +86,7 @@ public abstract class Veicle {
 			this.traces.add(trace);
 		}
 	}
+
 	public void addTicket(Ticket ticket) {
 		if (this.tickets == null) {
 			this.tickets = new HashSet<Ticket>();
@@ -74,7 +95,6 @@ public abstract class Veicle {
 		this.tickets.add(ticket);
 
 	}
-	
 
 	@Override
 	public String toString() {

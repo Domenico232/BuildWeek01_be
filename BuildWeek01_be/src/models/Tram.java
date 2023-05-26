@@ -42,7 +42,7 @@ public class Tram extends Veicle {
 
 	public static Tram randomTram() {
 		Random rand = new Random();
-		TypeStatus randType = rand.nextBoolean() ? TypeStatus.SERVIZIO : TypeStatus.MANUTENZIONE;
+		TypeStatus randType = rand.nextBoolean() ? TypeStatus.SERVICE : TypeStatus.MAINTENANCE;
 		Tram tram = new Tram(randType);
 		TraceDAO traceDAO = new TraceDAO();
 		List<Trace> traces = traceDAO.getAll();
