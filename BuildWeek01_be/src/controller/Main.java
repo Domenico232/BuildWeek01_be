@@ -125,6 +125,7 @@ public class Main {
 		if (veicles == null) {
 			System.out.println("All veicles are out of service");
 		}
+		veicles.forEach(System.out::println);
 		Random rand = new Random();
 
 		for (int i = 0; i < tickets.size(); i += 2) {
@@ -157,7 +158,7 @@ public class Main {
 	public static void insertVeicleStatusTimes(int quantity) {
 		VeicleDAO veicleDAO = new VeicleDAO();
 		List<Veicle> veicles = veicleDAO.getAll();
-		if(veicles == null) {
+		if (veicles == null) {
 			System.out.println("All veicles are out of service");
 		}
 		Random rand = new Random();
