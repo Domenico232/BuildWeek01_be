@@ -47,18 +47,19 @@ public class VeicleDAO implements IVeicleDAO {
     @Override
     public Veicle getById(Long id) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        Veicle veicle = null;
         try {
             em.getTransaction().begin();
-            Veicle v = em.find(Veicle.class, id);
+            veicle = em.find(Veicle.class, id);
             em.getTransaction().commit();
-            return v;
+            
         } catch (Exception e) {
             em.getTransaction().rollback();
             System.out.println("Errore su salvataggio!!");
-            return null;
         } finally {
             em.close();
         }
+        return veicle;
     }
 
     @Override
@@ -79,16 +80,17 @@ public class VeicleDAO implements IVeicleDAO {
     @Override
     public List<Veicle> getAll() {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        List<Veicle> veicles = null;
         try {
             TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v", Veicle.class);
-            return query.getResultList();
+            veicles = query.getResultList();
         } catch (Exception e) {
             System.out.println("Errore su salvataggio!!");
             System.out.println(e.getMessage());
-            return null;
         } finally {
             em.close();
         }
+        return veicles;
     }
 
     public long getNumberOfTicketsByVeicleId(long veicleId) {
@@ -111,18 +113,19 @@ public class VeicleDAO implements IVeicleDAO {
     }
     
     public List<Veicle> getVeiclesInService() {
+    	List<Veicle> veicles = null;
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
             TypedQuery<Veicle> query = em.createQuery("SELECT v FROM Veicle v WHERE v.typeStatus = 'SERVIZIO'",
                     Veicle.class);
-            return query.getResultList();
+            veicles = query.getResultList();
         } catch (Exception e) {
             System.out.println("Errore: impossibile recuperare i veicoli in servizio");
             System.out.println(e.getMessage());
-            return null;
         } finally {
             em.close();
         }
+        return veicles;
     }
 
 }

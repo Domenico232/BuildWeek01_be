@@ -46,18 +46,20 @@ public class ResellerDAO implements IResellerDAO {
 	@Override
 	public Reseller getById(long id) {
 		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+		Reseller r = null;
+		
 		try {
 			em.getTransaction().begin();
-			Reseller r = em.find(Reseller.class, id);
+			r = em.find(Reseller.class, id);
 			em.getTransaction().commit();
-			return r;
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			System.out.println("Errore su salvataggio!!");
-			return null;
+			
 		} finally {
 			em.close();
 		}
+		return r;
 	}
 
 	@Override
@@ -78,12 +80,15 @@ public class ResellerDAO implements IResellerDAO {
 	@Override
 	public List<Reseller> getAll() {
 		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+		List<Reseller> resellerList = null;
+		
 		try {
 			TypedQuery<Reseller> q = em.createQuery("SELECT r FROM Reseller r", Reseller.class);
-			return q.getResultList();
+			resellerList = q.getResultList();
 		} finally {
 			em.close();
 		}
+		return resellerList;
 	}
 
 }

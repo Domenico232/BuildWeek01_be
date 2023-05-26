@@ -131,7 +131,7 @@ public class Main {
 		for (int i = 0; i < tickets.size(); i += 2) {
 
 			Ticket ticket = (Ticket) tickets.get(i);
-			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
+			Veicle veicle = veicles.get(rand.nextInt(veicles.size()-1));
 
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);

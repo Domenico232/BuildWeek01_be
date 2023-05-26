@@ -132,17 +132,18 @@ public class PassDAO implements IPassDAO {
 
 	public List<Pass> getTicketsNotEndorsed() {
 		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+		List<Pass> tickets= null;
 		try {
 			TypedQuery<Pass> query = em.createQuery("SELECT p FROM Pass p WHERE p.endorsed = false", Pass.class);
-			List<Pass> tickets = query.getResultList();
-			return tickets;
+			tickets = query.getResultList();
+			
 		} catch (Exception e) {
 			System.out.println("Errore: impossibile recuperare i ticket non vidimati");
 			System.out.println(e.getMessage());
-			return null;
 		} finally {
 			em.close();
 		}
+		return tickets;
 	}
 
 	public List<Pass> getEndorsedTicketsInTimeRange(LocalDate startTime, LocalDate endTime) {
