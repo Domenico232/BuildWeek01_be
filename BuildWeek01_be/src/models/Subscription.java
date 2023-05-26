@@ -2,7 +2,6 @@ package models;
 
 import java.util.Random;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.persistence.Entity;

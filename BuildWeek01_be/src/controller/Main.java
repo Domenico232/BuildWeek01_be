@@ -12,9 +12,6 @@ import models.Pass;
 import models.Reseller;
 import models.Subscription;
 import models.Ticket;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -130,18 +127,18 @@ public class Main {
 			System.out.println("All veicles are out of service");
 		}
 		Random rand = new Random();
-		
+
 		for (int i = 0; i < tickets.size(); i += 2) {
-			
-			Ticket ticket = (Ticket)tickets.get(i);
+
+			Ticket ticket = (Ticket) tickets.get(i);
 			Veicle veicle = veicles.get(rand.nextInt(veicles.size()));
-			
+
 			ticket.setEndorsed(true);
 			ticket.setVeicle(veicle);
-			
+
 			veicle.addTicket(ticket);
 			passDAO.update(ticket);
-			
+
 		}
 	}
 
